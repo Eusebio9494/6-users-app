@@ -31,12 +31,16 @@ const UsersApp = () => {
     sessionStorage.setItem("usersList", JSON.stringify(usersList))
   }, [usersList])
 
+  console.log("Actual Lenght:", usersList.length)
+  const lenghtList = usersList.length + 1
+  console.log("Next ID:", lenghtList)
+
   return (
     <div className='container my-4'>
       <h2 style={{ color: 'black', fontSize: '24px', border: '1px solid black', padding: '8px' }}>Users App</h2>
       <div className='row'>
         <div className='col'>
-          <UserForm handlerUserForm={infoUser => handlerUser(infoUser)} />
+          <UserForm handlerUserForm={infoUser => handlerUser(infoUser)} counterId={lenghtList} />
         </div>
         <div className='col'>
           <UsersList users={usersList} />
