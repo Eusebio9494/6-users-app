@@ -3,15 +3,6 @@ import UsersList from './assets/Components/UsersList';
 import UserForm from './assets/Components/UserForm';
 import { usersReducer } from './assets/Components/reducers/usersReducer';
 
-// const initialUsers = [
-//   {
-//     id: 1,
-//     username: "Jhon Doe",
-//     email: "jhon_doe@doe.com",
-//     password: "Sasa1267"
-//   }
-  
-// ]
 const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
 const UsersApp = () => {
 
