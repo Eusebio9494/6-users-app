@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import UsersList from './assets/Components/UsersList';
 import UserForm from './assets/Components/UserForm';
-import { usersReducer } from './assets/Components/useUsersReducer/usersReducer';
+import { usersReducer } from './assets/Components/reducers/usersReducer';
 
 const initialUsers = [
   {
