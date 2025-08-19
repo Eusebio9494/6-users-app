@@ -3,18 +3,19 @@ import UsersList from './assets/Components/UsersList';
 import UserForm from './assets/Components/UserForm';
 import { usersReducer } from './assets/Components/reducers/usersReducer';
 
-const initialUsers = [
-  {
-    id: 1,
-    username: "Jhon Doe",
-    email: "jhon_doe@doe.com",
-    password: "Sasa1267"
-  }
+// const initialUsers = [
+//   {
+//     id: 1,
+//     username: "Jhon Doe",
+//     email: "jhon_doe@doe.com",
+//     password: "Sasa1267"
+//   }
   
-]
+// ]
+const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
 const UsersApp = () => {
 
-  const [usersList, dispatch] = useReducer(usersReducer, initialUsers)
+  const [usersList, dispatch] = useReducer(usersReducer, useListSession)
 
   const handlerUser = (infoUser) => {
 
@@ -25,6 +26,10 @@ const UsersApp = () => {
       }
     )
   }
+
+  useEffect(() => {
+    sessionStorage.setItem("usersList", JSON.stringify(usersList))
+  }, [usersList])
 
   return (
     <div className='container my-4'>
