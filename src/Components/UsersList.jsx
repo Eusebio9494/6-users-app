@@ -1,5 +1,5 @@
-import React from 'react';
-import UsersRow from './UsersRow';
+import UsersRow from "./UsersRow";
+
 
 const UsersList = ({ users = [] }) => {
     return (

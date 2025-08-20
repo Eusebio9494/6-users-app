@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import UsersList from './assets/Components/UsersList';
-import UserForm from './assets/Components/UserForm';
-import { usersReducer } from './assets/Components/reducers/usersReducer';
+import React, { useEffect, useReducer } from 'react';
+import UsersList from './Components/UsersList';
+import UserForm from './Components/UserForm';
+import { usersReducer } from './reducers/usersReducer';
 
 const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
 const UsersApp = () => {
