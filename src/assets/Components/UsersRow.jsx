@@ -3,9 +3,9 @@ import React from 'react';
 const UsersRow = ({ id, username, email }) => {
     return (
             <tr>
-                <td>{id}</td>
-                <td>{username}</td>
-                <td>{email}</td>
+                <td><p style={{fontWeight: 'inherit', color: 'blue', fontSize: '1em'}}>{id}</p></td>
+                <td><p style={{fontWeight: 'bold', color: 'blue', fontSize: '1em'}}>{username}</p></td>
+                <td><p style={{fontWeight: 'bold', color: 'blue', fontSize: '1em'}}>{email}</p></td>
                 <td>
                     <button type="button"
                         className="btn btn-secondary btn-sm">
