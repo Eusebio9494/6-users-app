@@ -4,7 +4,7 @@ import './styles.css'
 import UsersApp from './UsersApp.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <UsersApp />
-  </StrictMode>,
+  // </StrictMode>,
 )

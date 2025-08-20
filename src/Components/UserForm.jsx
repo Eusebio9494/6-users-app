@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import UsersList from './UsersList';
 
-const UserForm = ({ handlerUserForm, counterId, initialForm, userSelectedForm }) => {
+const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
 
     const [form, setFormState] = useState(initialForm);
 
@@ -9,8 +9,7 @@ const UserForm = ({ handlerUserForm, counterId, initialForm, userSelectedForm })
 
     useEffect(() => {
         setFormState({
-            ...userSelectedForm,
-            password: ""
+            ...userSelectedForm
         });
     }, [userSelectedForm])
 
@@ -51,13 +50,24 @@ const UserForm = ({ handlerUserForm, counterId, initialForm, userSelectedForm })
             return;
         }
 
-        handlerUserForm({ ...form, id: counterId });
+        // Calcula el siguiente ID para el usuario.
+        // Si el ID del formulario es 0 (nuevo usuario), busca el mayor ID en la lista de usuarios almacenada en sessionStorage,
+        // y le suma 1 para asignar un nuevo ID único. Si no hay usuarios, empieza desde 1.
+        // Si el formulario ya tiene un ID distinto de 0, reutiliza ese ID.
+        const nextId = form.id === 0
+            ? Math.max(...(JSON.parse(sessionStorage.getItem("usersList")) || []).map(user => user.id), 0) + 1
+            : form.id;
 
-        setFormState({
-            username: "",
-            password: "",
-            email: ""
-        })
+        // Muestra en consola el ID actual (el anterior al nuevo asignado)
+        console.log("Actual ID:", nextId );
+
+        // Muestra en consola el siguiente ID que se va a asignar
+        console.log("Next ID:", nextId + 1);
+
+        // Llama al manejador del formulario de usuario con los datos actualizados, incluyendo el nuevo ID
+        handlerUserForm({ ...form, id: nextId });
+
+        setFormState(initialForm)
 
     }
 
