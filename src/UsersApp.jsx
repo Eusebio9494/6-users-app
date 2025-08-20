@@ -22,19 +22,29 @@ const UsersApp = () => {
     sessionStorage.setItem("usersList", JSON.stringify(usersList))
   }, [usersList])
 
-  console.log("Actual Lenght:", usersList.length)
-  const lenghtList = usersList.length + 1
-  console.log("Next ID:", lenghtList)
+  const handlerDeleteUser= (id) => {
+    console.log(id)
+    dispatch(
+      {
+        type: 'RemoveUser',
+        payload: id
+      }
+    )
+  }
+
+  const nextId = Math.max(...usersList.map(user => user.id), 0) + 1;
+  console.log("Actual Lenght:", nextId - 1)
+  console.log("Next ID:", nextId)
 
   return (
     <div className='container my-4'>
       <h2 style={{ color: 'black', fontSize: '24px', border: '1px solid black', padding: '8px' }}>Users App</h2>
       <div className='row'>
         <div className='col'>
-          <UserForm handlerUserForm={infoUser => handlerUser(infoUser)} counterId={lenghtList} />
+          <UserForm handlerUserForm={infoUser => handlerUser(infoUser)} counterId={nextId} />
         </div>
         <div className='col'>
-          <UsersList users={usersList} />
+          <UsersList users={usersList} handlerDeleteUser={id => handlerDeleteUser(id)}/>
         </div>
       </div>
 

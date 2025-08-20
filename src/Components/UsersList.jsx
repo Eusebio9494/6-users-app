@@ -1,7 +1,7 @@
 import UsersRow from "./UsersRow";
 
 
-const UsersList = ({ users = [] }) => {
+const UsersList = ({handlerDeleteUser, users = [] }) => {
     return (
         <div>
             <h2 style={{ color: 'blue', fontSize: '15px', border: '1px solid black', padding: '8px' }}>Lista de usuarios</h2>
@@ -23,7 +23,8 @@ const UsersList = ({ users = [] }) => {
                                 key={ id }
                                 id={ id }
                                 username={ username }
-                                email={ email } />
+                                email={ email } 
+                                handlerDeleteUser={id => handlerDeleteUser(id)}/>
                         ))
                     }
                 </tbody>
