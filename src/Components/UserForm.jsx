@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import UsersList from './UsersList';
 
-const UserForm = ({handlerUserForm, counterId}) => {
+const UserForm = ({handlerUserForm, counterId, initialForm}) => {
 
-    const [form, setFormState] = useState({
-        username: "",
-        password: "",
-        email: ""
-    });
+    const [form, setFormState] = useState(initialForm);
 
     const { username, password, email } = form;
 

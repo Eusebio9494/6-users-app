@@ -4,6 +4,11 @@ import UserForm from './Components/UserForm';
 import { usersReducer } from './reducers/usersReducer';
 
 const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
+const form = {
+  username: "",
+  password: "",
+  email: ""
+}
 const UsersApp = () => {
 
   const [usersList, dispatch] = useReducer(usersReducer, useListSession)
@@ -22,7 +27,7 @@ const UsersApp = () => {
     sessionStorage.setItem("usersList", JSON.stringify(usersList))
   }, [usersList])
 
-  const handlerDeleteUser= (id) => {
+  const handlerDeleteUser = (id) => {
     console.log(id)
     dispatch(
       {
@@ -33,7 +38,7 @@ const UsersApp = () => {
   }
 
   const nextId = Math.max(...usersList.map(user => user.id), 0) + 1;
-  console.log("Actual Lenght:", nextId - 1)
+  console.log("Actual ID:", nextId - 1)
   console.log("Next ID:", nextId)
 
   return (
@@ -41,10 +46,13 @@ const UsersApp = () => {
       <h2 style={{ color: 'black', fontSize: '24px', border: '1px solid black', padding: '8px' }}>Users App</h2>
       <div className='row'>
         <div className='col'>
-          <UserForm handlerUserForm={infoUser => handlerUser(infoUser)} counterId={nextId} />
+          <UserForm handlerUserForm={infoUser => handlerUser(infoUser)} counterId={nextId} initialForm={form} />
         </div>
         <div className='col'>
-          <UsersList users={usersList} handlerDeleteUser={id => handlerDeleteUser(id)}/>
+          {usersList.length === 0
+            ? <div className='alert alert-warning'>No hay usuarios en el sistema!</div>
+            : <UsersList users={usersList} handlerDeleteUser={id => handlerDeleteUser(id)} />}
+
         </div>
       </div>
 
