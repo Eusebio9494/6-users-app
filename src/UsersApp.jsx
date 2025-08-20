@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import UsersList from './Components/UsersList';
 import UserForm from './Components/UserForm';
 import { usersReducer } from './reducers/usersReducer';
@@ -12,6 +12,7 @@ const form = {
 const UsersApp = () => {
 
   const [usersList, dispatch] = useReducer(usersReducer, useListSession)
+  const [formUpdate, setFormUpdate] = useState(form)
 
   const handlerUser = (infoUser) => {
 
@@ -37,6 +38,14 @@ const UsersApp = () => {
     )
   }
 
+  const handlerUserForm = (infoUserUpdate) => {
+    
+    setFormUpdate({...infoUserUpdate})
+    console.log("User to update:", formUpdate);
+
+  }
+
+
   const nextId = Math.max(...usersList.map(user => user.id), 0) + 1;
   console.log("Actual ID:", nextId - 1)
   console.log("Next ID:", nextId)
@@ -46,12 +55,12 @@ const UsersApp = () => {
       <h2 style={{ color: 'black', fontSize: '24px', border: '1px solid black', padding: '8px' }}>Users App</h2>
       <div className='row'>
         <div className='col'>
-          <UserForm handlerUserForm={infoUser => handlerUser(infoUser)} counterId={nextId} initialForm={form} />
+          <UserForm handlerUserForm={infoUser => handlerUser(infoUser)} counterId={nextId} initialForm={form} userSelectedForm={formUpdate} />
         </div>
         <div className='col'>
           {usersList.length === 0
             ? <div className='alert alert-warning'>No hay usuarios en el sistema!</div>
-            : <UsersList users={usersList} handlerDeleteUser={id => handlerDeleteUser(id)} />}
+            : <UsersList users={usersList} handlerDeleteUser={id => handlerDeleteUser(id)} handlerUpdateUser={infoUserUpdate => handlerUserForm(infoUserUpdate)}/>}
 
         </div>
       </div>

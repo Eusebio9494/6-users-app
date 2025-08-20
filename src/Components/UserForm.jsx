@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UsersList from './UsersList';
 
-const UserForm = ({handlerUserForm, counterId, initialForm}) => {
+const UserForm = ({ handlerUserForm, counterId, initialForm, userSelectedForm }) => {
 
     const [form, setFormState] = useState(initialForm);
 
     const { username, password, email } = form;
+
+    useEffect(() => {
+        setFormState({
+            ...userSelectedForm,
+            password: ""
+        });
+    }, [userSelectedForm])
 
     const onInputChange = ({ target }) => {
 
@@ -43,8 +50,8 @@ const UserForm = ({handlerUserForm, counterId, initialForm}) => {
             alert('Ingrese un correo electrónico válido');
             return;
         }
-        
-        handlerUserForm({...form, id: counterId});
+
+        handlerUserForm({ ...form, id: counterId });
 
         setFormState({
             username: "",
