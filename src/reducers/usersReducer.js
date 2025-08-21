@@ -14,7 +14,7 @@ export const usersReducer = (state = [], action) => {
         case 'RemoveUser':
             return state.filter(user => user.id !== action.payload);
         case 'UpdateUser':
-            console.log("Payload: ", action.payload)
+            console.log("Payload: ", action.payload) //En este momento no contiene la contraseña
             return state.map(user => {
                 if (user.id === action.payload.id) {
                     return { ...action.payload,

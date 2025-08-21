@@ -106,7 +106,7 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
                 <button
                     className='btn btn-primary'
                     type='submit'>
-                    Crear
+                    {id>0 ? 'Actualizar': 'Crear'}
                 </button>
             </form>
         </div>
