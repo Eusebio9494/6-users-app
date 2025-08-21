@@ -18,13 +18,12 @@ const UsersList = ({handlerDeleteUser, handlerUpdateUser, users = [] }) => {
                 </thead>
                 <tbody>
                     {
-                        users.map(({ id, username, email, password }) => (
+                        users.map(({ id, username, email }) => (
                             <UsersRow
                                 key={ id }
                                 id={ id }
                                 username={ username }
                                 email={ email } 
-                                password={ password }
                                 handlerDeleteUser={id => handlerDeleteUser(id)}
                                 handlerUpdateUser={infoUser => handlerUpdateUser(infoUser)}
                                 />

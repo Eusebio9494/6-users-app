@@ -5,11 +5,12 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
 
     const [form, setFormState] = useState(initialForm);
 
-    const { username, password, email } = form;
+    const { id, username, password, email } = form;
 
     useEffect(() => {
         setFormState({
-            ...userSelectedForm
+            ...userSelectedForm,
+            password: '' // Mantiene la contraseña si ya existe
         });
     }, [userSelectedForm])
 
@@ -31,16 +32,22 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
             return;
         }
 
-        // Validación de password
-        if (password.length < 8) {
-            alert('La contraseña debe tener mínimo 8 caracteres');
-            return;
-        }
-        // Ejemplo: al menos una mayúscula, una minúscula y un número
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-        if (!passwordRegex.test(password)) {
-            alert('La contraseña debe contener al menos una mayúscula, una minúscula y un número');
-            return;
+        // Validación de password en caso de que sea un nuevo usuario y no tenga contraseña
+        // Si el ID es 0, significa que es un nuevo usuario pero si no es así, se permite que el usuario mantenga su contraseña
+        // Esto es para que no se valide cuando el usuario está editando su información
+        if (!password && id === 0){
+
+            // Validación de password
+            if (password.length < 8) {
+                alert('La contraseña debe tener mínimo 8 caracteres');
+                return;
+            }
+            // Ejemplo: al menos una mayúscula, una minúscula y un número
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+            if (!passwordRegex.test(password)) {
+                alert('La contraseña debe contener al menos una mayúscula, una minúscula y un número');
+                return;
+            }
         }
 
         // Validación de email
@@ -82,13 +89,13 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
                     name='username'
                     value={username}
                     onChange={event => { onInputChange(event) }} />
-                <input
+                {id > 0 || <input
                     className='form-control my-3 w-75'
                     placeholder='Password'
                     type='password'
                     value={password}
                     name='password'
-                    onChange={event => { onInputChange(event) }} />
+                    onChange={event => { onInputChange(event) }} />}
                 <input
                     className='form-control my-3 w-75'
                     placeholder='Email'

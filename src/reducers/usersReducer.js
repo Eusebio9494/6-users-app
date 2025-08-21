@@ -17,7 +17,9 @@ export const usersReducer = (state = [], action) => {
             console.log("Payload: ", action.payload)
             return state.map(user => {
                 if (user.id === action.payload.id) {
-                    return { ...action.payload }
+                    return { ...action.payload,
+                        password: user.password // Mantiene la contraseña existente
+                     }
                 };
 
                 return user

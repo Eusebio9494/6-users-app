@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UsersRow = ({ id, username, email, handlerDeleteUser, handlerUpdateUser, password }) => {
+const UsersRow = ({ id, username, email, handlerDeleteUser, handlerUpdateUser }) => {
 
     const onDeleteId = (id) => {
         handlerDeleteUser(id)
@@ -13,7 +13,7 @@ const UsersRow = ({ id, username, email, handlerDeleteUser, handlerUpdateUser, p
                 <td>
                     <button type="button"
                         className="btn btn-secondary btn-sm"
-                        onClick={() => handlerUpdateUser({id, username, email, password})}>
+                        onClick={() => handlerUpdateUser({id, username, email})}>
                         Update
                     </button>
                 </td>
