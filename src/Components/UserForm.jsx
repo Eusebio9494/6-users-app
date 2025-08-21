@@ -8,7 +8,7 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
     const { id, username, password, email } = form;
 
     useEffect(() => {
-        console.log("UserSelectedForm: ", form);
+        console.log("Default Form: ", form);
         setFormState({
             ...userSelectedForm,
             password: '' // Mantiene la contraseña si ya existe
