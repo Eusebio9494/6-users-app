@@ -11,7 +11,7 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
         console.log("Default Form: ", form);
         setFormState({
             ...userSelectedForm,
-            password: '' // Mantiene la contraseña si ya existe
+            password: ''
         });
     }, [userSelectedForm])
 
