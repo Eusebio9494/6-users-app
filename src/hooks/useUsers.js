@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
 import { usersReducer } from '../reducers/usersReducer';
+import Swal from 'sweetalert2';
 
 const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
 const form = {
@@ -16,17 +17,25 @@ const useUsers = () => {
     const handlerUser = (infoUser) => {
         // Verifica si el usuario ya existe por ID
         const exists = usersList.some(user => user.id === infoUser.id);
+
         if (exists) {
             dispatch({
                 type: 'UpdateUser',
                 payload: infoUser
             });
         } else {
+
             dispatch({
                 type: 'AddUser',
                 payload: infoUser
             });
         }
+
+        Swal.fire({
+            title: !exists ? "Usuario Creado" : `Usuario Actualizado`,
+            text: !exists ? `El usuario ${infoUser.username} ha sido creado` : `El usuario ${infoUser.username} ha sido actualizado`,
+            icon: "success"
+        });
     }
 
     useEffect(() => {
@@ -35,12 +44,30 @@ const useUsers = () => {
 
     const handlerDeleteUser = (id) => {
         console.log(id)
-        dispatch(
-            {
-                type: 'RemoveUser',
-                payload: id
+
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, eliminar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(
+                    {
+                        type: 'RemoveUser',
+                        payload: id
+                    }
+                )
+                Swal.fire({
+                    title: "Eliminado!",
+                    text: "El usuario ha sido eliminado",
+                    icon: "success"
+                });
             }
-        )
+        });
     }
 
     const handlerUserForm = (infoUserUpdate) => {
