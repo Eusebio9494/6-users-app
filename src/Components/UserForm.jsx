@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import UsersList from './UsersList';
 import Swal from 'sweetalert2';
 
-const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
+const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerCloseeForm }) => {
 
     const [form, setFormState] = useState(initialForm);
 
@@ -19,6 +19,10 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
     const onInputChange = ({ target }) => {
 
         setFormState({ ...form, [target.name]: target.value }) //propiedad computada [target.name]
+    }
+
+    const handlerVisibleForm = () => {
+        handlerCloseeForm;
     }
 
     const onUserForm = (event) => {
@@ -126,7 +130,8 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
                     onChange={onInputChange} />
                 <button
                     className='btn btn-primary'
-                    type='submit'>
+                    type='submit'
+                    onClick={() => { handlerVisibleForm() }}>
                     {id>0 ? 'Actualizar': 'Crear'}
                 </button>
             </form>
