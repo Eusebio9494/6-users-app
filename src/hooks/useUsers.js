@@ -13,6 +13,7 @@ const useUsers = () => {
 
     const [usersList, dispatch] = useReducer(usersReducer, useListSession)
     const [formUpdate, setFormUpdate] = useState(form)
+    //* Controla la visibilidad del formulario
     const [visibleForm, setVisibleForm] = useState(false)
 
     const handlerUser = (infoUser) => {
@@ -39,7 +40,8 @@ const useUsers = () => {
         });
         handlerCloseeForm();
     }
-
+    
+    //* Sincroniza el estado de la lista de usuarios con sessionStorage
     useEffect(() => {
         sessionStorage.setItem("usersList", JSON.stringify(usersList))
     }, [usersList])
@@ -78,10 +80,11 @@ const useUsers = () => {
         setVisibleForm(true)   
     }
 
+    // Abre el formulario cuando se selecciona un usuario para editar o se quiere crear uno nuevo
     const handlerOpenForm = () => {
         setVisibleForm(true)
     }
-    
+    // Cierra el formulario cuando se cancela la edición o se envía el formulario
     const handlerCloseeForm = () => {
         setVisibleForm(false)
         setFormUpdate(form)
