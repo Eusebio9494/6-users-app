@@ -13,6 +13,7 @@ const useUsers = () => {
 
     const [usersList, dispatch] = useReducer(usersReducer, useListSession)
     const [formUpdate, setFormUpdate] = useState(form)
+    const [visibleForm, setVisibleForm] = useState(false)
 
     const handlerUser = (infoUser) => {
         // Verifica si el usuario ya existe por ID
@@ -36,6 +37,7 @@ const useUsers = () => {
             text: !exists ? `El usuario ${infoUser.username} ha sido creado` : `El usuario ${infoUser.username} ha sido actualizado`,
             icon: "success"
         });
+        handlerCloseeForm();
     }
 
     useEffect(() => {
@@ -70,16 +72,30 @@ const useUsers = () => {
         });
     }
 
+    
     const handlerUserForm = (infoUserUpdate) => {
         setFormUpdate({ ...infoUserUpdate })
+        setVisibleForm(true)   
+    }
+
+    const handlerOpenForm = () => {
+        setVisibleForm(true)
+    }
+    
+    const handlerCloseeForm = () => {
+        setVisibleForm(false)
+        setFormUpdate(form)
     }
     return {
         form,
         usersList,
         formUpdate,
+        visibleForm,
         handlerUser,
         handlerDeleteUser,
-        handlerUserForm
+        handlerUserForm,
+        handlerCloseeForm,
+        handlerOpenForm
     }
 }
 
