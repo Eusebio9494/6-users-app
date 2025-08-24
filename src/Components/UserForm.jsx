@@ -21,8 +21,9 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
         setFormState({ ...form, [target.name]: target.value }) //propiedad computada [target.name]
     }
 
+    // Método que devuelve la visibilidad del formulario
     const handlerVisibleForm = () => {
-        handlerCloseeForm;
+        handlerCloseeForm();
     }
 
     const onUserForm = (event) => {
