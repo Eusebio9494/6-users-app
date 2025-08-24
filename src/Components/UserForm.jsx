@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import UsersList from './UsersList';
+import Swal from 'sweetalert2';
 
 const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
 
@@ -25,11 +26,19 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
 
         // Validación de username
         if (!username.trim()) {
-            alert("El nombre no debe estar vacío");
+            Swal.fire({
+                        title: "Error con el nombre",
+                        text: "El nombre no debe estar vacío",
+                        icon: "error"
+                    });
             return;
         }
         if (username.length < 3) {
-            alert("El nombre debe tener al menos 3 caracteres");
+            Swal.fire({
+                title: "Error con el nombre",
+                text: "El nombre debe tener al menos 3 caracteres",
+                icon: "error"
+            });
             return;
         }
 
@@ -40,13 +49,21 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
 
             // Validación de password
             if (password.length < 8) {
-                alert('La contraseña debe tener mínimo 8 caracteres');
+                Swal.fire({
+                    title: "Error con la contraseña",
+                    text: "La contraseña debe tener mínimo 8 caracteres",
+                    icon: "error"
+                });
                 return;
             }
             // Ejemplo: al menos una mayúscula, una minúscula y un número
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
             if (!passwordRegex.test(password)) {
-                alert('La contraseña debe contener al menos una mayúscula, una minúscula y un número');
+                Swal.fire({
+                    title: "Error con la contraseña",
+                    text: "La contraseña debe contener al menos una mayúscula, una minúscula y un número",
+                    icon: "error"
+                });
                 return;
             }
         }
@@ -54,7 +71,11 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm }) => {
         // Validación de email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email.trim() || !emailRegex.test(email)) {
-            alert('Ingrese un correo electrónico válido');
+            Swal.fire({
+                title: "Error con el correo electrónico",
+                text: "Ingrese un correo electrónico válido",
+                icon: "error"
+            });
             return;
         }
 
