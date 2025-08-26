@@ -109,7 +109,7 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
         <div>
             <h2 style={{ color: 'blue', fontSize: '15px', border: '1px solid black', padding: '8px' }}>Formulario de usuario</h2>
 
-            <form className='w-50' onSubmit={event => onUserForm(event)}>
+            <form className='w-100' onSubmit={event => onUserForm(event)}>
                 <input
                     className='form-control my-3 w-75'
                     placeholder='Username'
@@ -129,12 +129,19 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
                     name='email'
                     value={email}
                     onChange={onInputChange} />
-                <button
-                    className='btn btn-primary'
-                    type='submit'
-                    onClick={() => { handlerVisibleForm() }}>
-                    {id>0 ? 'Actualizar': 'Crear'}
-                </button>
+                <div style={{ display: 'flex', gap: '16px' }}>
+                    <button
+                        className='btn btn-primary'
+                        type='submit'>
+                        {id > 0 ? 'Actualizar' : 'Crear'}
+                    </button>
+                    <button
+                        className='btn btn-primary'
+                        type='button'
+                        onClick={() => { handlerVisibleForm() }}>
+                        Cerrar
+                    </button>
+                </div>
             </form>
         </div>
     );
