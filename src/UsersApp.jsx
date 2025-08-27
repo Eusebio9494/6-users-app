@@ -4,7 +4,7 @@ import { loginReducers } from './Auth/reducers/loginReducer';
 import { UsersPages } from './pages/UsersPages';
 import Swal from 'sweetalert2';
 
-const initialLogin = {
+const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
   isAuth: false,
   user: undefined
 }
@@ -23,6 +23,10 @@ const UsersApp = () => {
           action: user,
         }
       )
+      sessionStorage.setItem("login", JSON.stringify({
+        isAuth: true,
+        user
+      }));
       console.log(user)
     } else {
       Swal.fire('Error de validación', 'Username y password incorrectos', 'error')
