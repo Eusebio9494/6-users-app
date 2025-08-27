@@ -5,7 +5,7 @@ const initialForm = {
     username: '',
     password: ''
 }
-const Login = () => {
+const Login = ( {handlerLogin} ) => {
 
     const [loginForm, setLoginForm] = useState(initialForm);
     const {username, password} = loginForm;
@@ -24,11 +24,7 @@ const Login = () => {
             return;
         }
 
-        if(username === 'admin' && password === '12345'){
-
-        } else {
-            Swal.fire('Error de validación', 'Username y password incorrectos', 'error')
-        }
+        handlerLogin({username, password})
         setLoginForm(initialForm);
     }
 
