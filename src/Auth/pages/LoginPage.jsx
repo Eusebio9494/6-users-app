@@ -5,7 +5,7 @@ const initialForm = {
     username: '',
     password: ''
 }
-const Login = ( {handlerLogin} ) => {
+const LoginPage = ( {handlerLogin} ) => {
 
     const [loginForm, setLoginForm] = useState(initialForm);
     const {username, password} = loginForm;
@@ -66,4 +66,4 @@ const Login = ( {handlerLogin} ) => {
     );
 }
 
-export default Login;
+export default LoginPage;
