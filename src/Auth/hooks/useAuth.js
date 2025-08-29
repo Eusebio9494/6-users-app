@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import Swal from 'sweetalert2';
 import { loginReducers } from '../reducers/loginReducer';
+import { validateUser } from '../service/authService';
 
 const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
   isAuth: false,
@@ -12,20 +13,19 @@ export const useAuth = () => {
 
 
   const handlerLogin = ({ username, password }) => {
-    console.log("handlerLogin: " + username, password)
-    if (username === 'admin' && password === '12345') {
+    const isLogin = validateUser({username, password});
+    if (isLogin) {
       const user = { username: 'admin' }
       dispatch(
         {
           type: 'LOGIN',
-          action: user,
+          payload: user,
         }
       )
       sessionStorage.setItem("login", JSON.stringify({
         isAuth: true,
         user
       }));
-      console.log(user)
     } else {
       Swal.fire('Error de validación', 'Username y password incorrectos', 'error')
     }
