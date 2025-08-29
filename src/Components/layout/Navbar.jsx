@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Navbar = ({ login, handlerLogout }) => {
+
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
