@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from 'react';
 import { usersReducer } from '../reducers/usersReducer';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
 const form = {
@@ -15,6 +16,7 @@ const useUsers = () => {
     const [formUpdate, setFormUpdate] = useState(form)
     //* Controla la visibilidad del formulario
     const [visibleForm, setVisibleForm] = useState(false)
+    const navigate = useNavigate();
 
     const handlerUser = (infoUser) => {
         // Verifica si el usuario ya existe por ID
@@ -39,6 +41,8 @@ const useUsers = () => {
             icon: "success"
         });
         handlerCloseeForm();
+        navigate('/users')
+
     }
     
     //* Sincroniza el estado de la lista de usuarios con sessionStorage
