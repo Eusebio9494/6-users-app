@@ -1,17 +1,19 @@
 import UsersList from '../Components/UsersList';
-import useUsers from '../hooks/useUsers';
 import UsersModalForm from '../Components/UsersModalForm';
 
-export const UsersPages = () => {
+export const UsersPages = ({ form, usersList, formUpdate, visibleForm, handlerUser, handlerDeleteUser, handlerUserForm, handlerCloseeForm, handlerOpenForm }) => {
 
-  // Custom hook para manejar la lógica de estado de los usuarios
-  const { form, usersList, formUpdate, visibleForm, handlerUser, handlerDeleteUser, handlerUserForm, handlerCloseeForm, handlerOpenForm } = useUsers();
-
+  
   return (
 
     <>
+
       {!visibleForm || 
-      <UsersModalForm handlerUser={handlerUser} form={form} formUpdate={formUpdate} handlerCloseeForm={handlerCloseeForm}/>
+      <UsersModalForm 
+      handlerUser={handlerUser} 
+      form={form} 
+      formUpdate={formUpdate} 
+      handlerCloseeForm={handlerCloseeForm}/>
       }
 
       <div className='container my-4'>
