@@ -12,6 +12,7 @@ const UsersList = ({handlerDeleteUser, handlerUpdateUser, users = [] }) => {
                         <th>username</th>
                         <th>email</th>
                         <th>update</th>
+                        <th>update route</th>
                         <th>remove</th>
                     </tr>
                 </thead>

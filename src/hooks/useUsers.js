@@ -48,6 +48,8 @@ const useUsers = () => {
     //* Sincroniza el estado de la lista de usuarios con sessionStorage
     useEffect(() => {
         sessionStorage.setItem("usersList", JSON.stringify(usersList))
+                console.log("Users: "+ usersList)
+
     }, [usersList])
 
     const handlerDeleteUser = (id) => {

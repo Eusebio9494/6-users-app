@@ -25,6 +25,7 @@ const UserRoutes = ({ login, handlerLogout }) => {
                 handlerCloseeForm={handlerCloseeForm}
                 handlerOpenForm={handlerOpenForm}/>} />
                 <Route path='users/register' element={ < UsersRegisterPages handlerUser={handlerUser} initialForm={form}/>} />
+                <Route path='users/edit/:id' element={ < UsersRegisterPages usersList={usersList} handlerUser={handlerUser} initialForm={form}/>} />
                 <Route path='/' element={<Navigate to='/users' />} />
 
             </Routes>
