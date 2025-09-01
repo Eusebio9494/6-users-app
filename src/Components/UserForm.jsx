@@ -32,10 +32,10 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
         // Validación de username
         if (!username.trim()) {
             Swal.fire({
-                        title: "Error con el nombre",
-                        text: "El nombre no debe estar vacío",
-                        icon: "error"
-                    });
+                title: "Error con el nombre",
+                text: "El nombre no debe estar vacío",
+                icon: "error"
+            });
             return;
         }
         if (username.length < 3) {
@@ -50,7 +50,7 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
         // Validación de password en caso de que sea un nuevo usuario y no tenga contraseña
         // Si el ID es 0, significa que es un nuevo usuario pero si no es así, se permite que el usuario mantenga su contraseña
         // Esto es para que no se valide cuando el usuario está editando su información
-        if (!password && id === 0){
+        if (!password && id === 0) {
 
             // Validación de password
             if (password.length < 8) {
@@ -93,7 +93,7 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
             : form.id;
 
         // Muestra en consola el ID actual (el anterior al nuevo asignado)
-        console.log("Actual ID:", nextId );
+        console.log("Actual ID:", nextId);
 
         // Muestra en consola el siguiente ID que se va a asignar
         console.log("Next ID:", nextId + 1);
@@ -135,12 +135,14 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
                         type='submit'>
                         {id > 0 ? 'Actualizar' : 'Crear'}
                     </button>
-                    <button
-                        className='btn btn-primary'
-                        type='button'
-                        onClick={() => { handlerVisibleForm() }}>
-                        Cerrar
-                    </button>
+                    {!handlerCloseeForm ||
+                        <button
+                            className='btn btn-primary'
+                            type='button'
+                            onClick={() => { handlerVisibleForm() }}>
+                            Cerrar
+                        </button>}
+
                 </div>
             </form>
         </div>
