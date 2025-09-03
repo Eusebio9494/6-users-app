@@ -4,14 +4,13 @@ import Navbar from '../Components/layout/Navbar';
 import UsersRegisterPages from '../pages/UsersRegisterPages';
 import { UserProvider } from '../Context/UserProvider';
 
-const UserRoutes = ({ login, handlerLogout }) => {
-
+const UserRoutes = () => {
 
     return (
         <>
             <UserProvider>
 
-                <Navbar login={login} handlerLogout={handlerLogout} />
+                <Navbar />
                 <Routes>
 
                     <Route path='users' element={<UsersPages/>} />
