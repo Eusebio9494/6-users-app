@@ -42,6 +42,7 @@ const useUsers = () => {
         });
         handlerCloseeForm();
         navigate('/users')
+        {console.log('%cUsuario guardado:', 'color: green; font-weight: bold;', infoUser.username)}
 
     }
     
@@ -89,10 +90,12 @@ const useUsers = () => {
     // Abre el formulario cuando se selecciona un usuario para editar o se quiere crear uno nuevo
     const handlerOpenForm = () => {
         setVisibleForm(true)
+        {console.log('%cBooleano para mostrar formulario:', 'color: pink; font-weight: bold;', visibleForm)}
     }
     // Cierra el formulario cuando se cancela la edición o se envía el formulario
     const handlerCloseeForm = () => {
         setVisibleForm(false)
+        {console.log('%cBooleano para ocultar formulario:', 'color: pink; font-weight: bold;', visibleForm)}
         setFormUpdate(form)
     }
     return {

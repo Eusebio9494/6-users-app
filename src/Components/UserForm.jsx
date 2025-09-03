@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import UsersList from './UsersList';
+import { useContext, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import { UserContext } from '../Context/UserContext';
 
-const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerCloseeForm }) => {
+const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
 
-    const [form, setFormState] = useState(initialForm);
+    const {handlerUser, form} = useContext(UserContext);
 
-    const { id, username, password, email } = form;
+    const [formState, setFormState] = useState(form);
+
+    const { id, username, password, email } = formState;
 
     useEffect(() => {
-        console.log("Default Form: ", form);
+        console.log("Default Form: ", formState);
         setFormState({
             ...userSelectedForm,
             password: ''
@@ -18,7 +20,7 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
 
     const onInputChange = ({ target }) => {
 
-        setFormState({ ...form, [target.name]: target.value }) //propiedad computada [target.name]
+        setFormState({ ...formState, [target.name]: target.value }) //propiedad computada [target.name]
     }
 
     // Método que devuelve la visibilidad del formulario
@@ -88,9 +90,9 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
         // Si el ID del formulario es 0 (nuevo usuario), busca el mayor ID en la lista de usuarios almacenada en sessionStorage,
         // y le suma 1 para asignar un nuevo ID único. Si no hay usuarios, empieza desde 1.
         // Si el formulario ya tiene un ID distinto de 0, reutiliza ese ID.
-        const nextId = form.id === 0
+        const nextId = formState.id === 0
             ? Math.max(...(JSON.parse(sessionStorage.getItem("usersList")) || []).map(user => user.id), 0) + 1
-            : form.id;
+            : formState.id;
 
         // Muestra en consola el ID actual (el anterior al nuevo asignado)
         console.log("Actual ID:", nextId);
@@ -98,10 +100,12 @@ const UserForm = ({ handlerUserForm, initialForm, userSelectedForm, handlerClose
         // Muestra en consola el siguiente ID que se va a asignar
         console.log("Next ID:", nextId + 1);
 
-        // Llama al manejador del formulario de usuario con los datos actualizados, incluyendo el nuevo ID
-        handlerUserForm({ ...form, id: nextId });
 
-        setFormState(initialForm)
+        {console.log('%cUsuario a agregar:', 'color: green; font-weight: bold;', formState)}
+        // Llama al manejador del formulario de usuario con los datos actualizados, incluyendo el nuevo ID
+        handlerUser({ ...formState, id: nextId });
+
+        setFormState(form)
 
     }
 
