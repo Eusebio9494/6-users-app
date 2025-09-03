@@ -1,7 +1,8 @@
 import UsersRow from "./UsersRow";
 
 
-const UsersList = ({handlerDeleteUser, handlerUpdateUser, users = [] }) => {
+const UsersList = ({users = [] }) => {
+    
     return (
         <div>
 
@@ -23,9 +24,7 @@ const UsersList = ({handlerDeleteUser, handlerUpdateUser, users = [] }) => {
                                 key={ id }
                                 id={ id }
                                 username={ username }
-                                email={ email } 
-                                handlerDeleteUser={id => handlerDeleteUser(id)}
-                                handlerUpdateUser={infoUser => handlerUpdateUser(infoUser)}
+                                email={ email }
                                 />
                         ))
                     }

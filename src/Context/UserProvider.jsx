@@ -1,4 +1,5 @@
-import { UsersContext } from "./UserContext"
+import useUsers from "../hooks/useUsers";
+import { UserContext } from "./UserContext"
 
 export const UserProvider = ({ children }) => {
 
@@ -15,7 +16,7 @@ export const UserProvider = ({ children }) => {
     } = useUsers();
 
     return (
-        <UsersContext.Provider value={
+        <UserContext.Provider value={
             {
                 form,
                 usersList,
@@ -30,7 +31,7 @@ export const UserProvider = ({ children }) => {
         }>
             {children}
 
-        </UsersContext.Provider>
+        </UserContext.Provider>
 
     )
 }

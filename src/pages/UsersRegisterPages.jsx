@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import UserForm from '../Components/UserForm';
 import { useParams } from 'react-router-dom';
+import { UserContext } from '../Context/UserContext';
 
-const UsersRegisterPages = ({ usersList = [], handlerUser, initialForm }) => {
+const UsersRegisterPages = () => {
 
-  const [userSelectedForm, setUserSelectedForm] = useState(initialForm);
+  const { usersList = [], form } = useContext(UserContext)
+
+  const [userSelectedForm, setUserSelectedForm] = useState(form);
 
   const {id} = useParams();
 
   useEffect(() => {
     console.log(id)
-    const user = usersList.find(u => u.id == id) || initialForm
+    const user = usersList.find(u => u.id == id) || form
     setUserSelectedForm(user);
   }, [id])
   
@@ -22,7 +25,7 @@ const UsersRegisterPages = ({ usersList = [], handlerUser, initialForm }) => {
         </h4>
         <div className='row'>
           <div className='col'>
-            <UserForm handlerUserForm={handlerUser} initialForm={initialForm} userSelectedForm={userSelectedForm} />
+            <UserForm userSelectedForm={userSelectedForm} />
           </div>
         </div>
       </div>

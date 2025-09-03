@@ -1,19 +1,20 @@
+import { useContext } from 'react';
 import UsersList from '../Components/UsersList';
 import UsersModalForm from '../Components/UsersModalForm';
+import { UserContext } from '../Context/UserContext';
 
-export const UsersPages = ({ form, usersList, formUpdate, visibleForm, handlerUser, handlerDeleteUser, handlerUserForm, handlerCloseeForm, handlerOpenForm }) => {
+export const UsersPages = () => {
 
-  
+  const { usersList,
+    visibleForm,
+    handlerOpenForm } = useContext(UserContext);
+
   return (
 
     <>
 
-      {!visibleForm || 
-      <UsersModalForm 
-      handlerUser={handlerUser} 
-      form={form} 
-      formUpdate={formUpdate} 
-      handlerCloseeForm={handlerCloseeForm}/>
+      {!visibleForm ||
+        <UsersModalForm />
       }
 
       <div className='container my-4'>
@@ -30,11 +31,12 @@ export const UsersPages = ({ form, usersList, formUpdate, visibleForm, handlerUs
               onClick={handlerOpenForm}
             >Agregar Usuario</button>
             }
-            {console.log(visibleForm)}
+            {console.log('%cBooleano para no mostrar boton Agregar Usuario:', 'color: green; font-weight: bold;', visibleForm)}
+
 
             {usersList.length === 0
               ? <div className='alert alert-warning'>No hay usuarios en el sistema!</div>
-              : <UsersList users={usersList} handlerDeleteUser={id => handlerDeleteUser(id)} handlerUpdateUser={infoUserUpdate => handlerUserForm(infoUserUpdate)} />}
+              : <UsersList users={usersList} />}
 
           </div>
 
