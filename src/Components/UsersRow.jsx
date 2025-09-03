@@ -1,7 +1,10 @@
-import React from 'react';
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { UserContext } from '../Context/UserContext';
 
-const UsersRow = ({ id, username, email, handlerDeleteUser, handlerUpdateUser }) => {
+const UsersRow = ({ id, username, email}) => {
+
+    const { handlerDeleteUser, handlerUserForm } = useContext(UserContext);
 
     const onDeleteId = (id) => {
         handlerDeleteUser(id)
@@ -14,7 +17,7 @@ const UsersRow = ({ id, username, email, handlerDeleteUser, handlerUpdateUser })
             <td>
                 <button type="button"
                     className="btn btn-secondary btn-sm"
-                    onClick={() => handlerUpdateUser({ id, username, email })}>
+                    onClick={() => handlerUserForm({ id, username, email })}>
                     Update
                 </button>
             </td>
