@@ -1,13 +1,24 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import UsersList from '../Components/UsersList';
 import UsersModalForm from '../Components/UsersModalForm';
 import { UserContext } from '../Context/UserContext';
 
 export const UsersPages = () => {
 
-  const { usersList,
+  const {
+    usersList,
     visibleForm,
-    handlerOpenForm } = useContext(UserContext);
+    handlerOpenForm,
+    getUsers
+  } = useContext(UserContext);
+
+  /**
+   * Carga inicial de la lista de usuarios desde el backend mediante el contexto y la disposición del hook useUsers con la función 
+   * getUsers que llama a la api rest de usuarios
+   */
+  useEffect(() => {
+    getUsers();
+  }, [])
 
   return (
 
