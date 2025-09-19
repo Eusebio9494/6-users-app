@@ -17,13 +17,16 @@ export const usersReducer = (state = [], action) => {
             console.log("Payload: ", action.payload) //En este momento no contiene la contraseña
             return state.map(user => {
                 if (user.id === action.payload.id) {
-                    return { ...action.payload,
+                    return {
+                        ...action.payload,
                         password: user.password // Mantiene la contraseña existente
-                     }
+                    }
                 };
 
                 return user
             })
+        case 'loadingUsers':
+            return action.payload
         default:
             return state;
     }
