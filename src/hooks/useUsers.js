@@ -2,8 +2,10 @@ import { useEffect, useReducer, useState } from 'react';
 import { usersReducer } from '../reducers/usersReducer';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { findAll, remove, save, update } from '../services/userService';
 
-const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
+// const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
+const useListSession = []
 const form = {
     id: 0,
     username: "",
@@ -18,20 +20,41 @@ const useUsers = () => {
     const [visibleForm, setVisibleForm] = useState(false)
     const navigate = useNavigate();
 
-    const handlerUser = (infoUser) => {
+    /**
+     * Obtiene la lista de usuarios de la API utilizando la función findAll,
+     * imprime los datos recibidos en la consola y despacha una acción para
+     * actualizar el estado con los usuarios cargados.
+     *
+     * @async
+     * @function getUsers
+     * @returns {Promise<void>} No retorna ningún valor, pero actualiza el estado global mediante dispatch.
+     */
+    const getUsers = async() => {
+        const response = await findAll()
+        console.log(response)
+        dispatch((
+            {
+                type: 'loadingUsers',
+                payload: response.data
+            }
+        ))
+    }
+
+    const handlerUser = async(infoUser) => {
         // Verifica si el usuario ya existe por ID
         const exists = usersList.some(user => user.id === infoUser.id);
 
         if (exists) {
+            let response = await update(infoUser)
             dispatch({
                 type: 'UpdateUser',
-                payload: infoUser
+                payload: response.data,
             });
         } else {
-
+            let response = await save(infoUser)
             dispatch({
                 type: 'AddUser',
-                payload: infoUser
+                payload: response.data
             });
         }
 
@@ -53,8 +76,9 @@ const useUsers = () => {
 
     }, [usersList])
 
-    const handlerDeleteUser = (id) => {
-        console.log(id)
+    const handlerDeleteUser = async(id) => {
+        console.log(id);
+        
 
         Swal.fire({
             title: "¿Estás seguro?",
@@ -66,6 +90,7 @@ const useUsers = () => {
             confirmButtonText: "Si, eliminar"
         }).then((result) => {
             if (result.isConfirmed) {
+                remove(id);
                 dispatch(
                     {
                         type: 'RemoveUser',
@@ -107,7 +132,8 @@ const useUsers = () => {
         handlerDeleteUser,
         handlerUserForm,
         handlerCloseeForm,
-        handlerOpenForm
+        handlerOpenForm,
+        getUsers
     }
 }
 
