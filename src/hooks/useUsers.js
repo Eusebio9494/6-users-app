@@ -12,6 +12,11 @@ const form = {
     password: "",
     email: ""
 }
+const initialErrors= {
+    username: "",
+    password: "",
+    email: ""
+}
 const useUsers = () => {
 
     const [usersList, dispatch] = useReducer(usersReducer, useListSession)
@@ -19,6 +24,8 @@ const useUsers = () => {
     //* Controla la visibilidad del formulario
     const [visibleForm, setVisibleForm] = useState(false)
     const navigate = useNavigate();
+
+    const [errors, setErrors] = useState(initialErrors);
 
     /**
      * Obtiene la lista de usuarios de la API utilizando la función findAll,
@@ -42,22 +49,23 @@ const useUsers = () => {
 
     const handlerUser = async(infoUser) => {
         // Verifica si el usuario ya existe por ID
-        const exists = usersList.some(user => user.id === infoUser.id);
+        try{
 
-        if (exists) {
-            let response = await update(infoUser)
-            dispatch({
-                type: 'UpdateUser',
-                payload: response.data,
-            });
-        } else {
-            let response = await save(infoUser)
-            dispatch({
-                type: 'AddUser',
-                payload: response.data
-            });
-        }
-
+            const exists = usersList.some(user => user.id === infoUser.id);
+            if (exists) {
+                let response = await update(infoUser)
+                dispatch({
+                    type: 'UpdateUser',
+                    payload: response.data,
+                });
+            } else {
+                let response = await save(infoUser)
+                dispatch({
+                    type: 'AddUser',
+                    payload: response.data
+                });
+            }
+            
         Swal.fire({
             title: !exists ? "Usuario Creado" : `Usuario Actualizado`,
             text: !exists ? `El usuario ${infoUser.username} ha sido creado` : `El usuario ${infoUser.username} ha sido actualizado`,
@@ -66,7 +74,15 @@ const useUsers = () => {
         handlerCloseeForm();
         navigate('/users')
         {console.log('%cUsuario guardado:', 'color: green; font-weight: bold;', infoUser.username)}
-
+    }catch(error){
+        if(error.response && error.response.status){
+            setErrors(error.response.data)
+            console.log(errors)
+        } else {
+            throw error;
+        }
+    }
+        
     }
     
     //* Sincroniza el estado de la lista de usuarios con sessionStorage
@@ -122,12 +138,14 @@ const useUsers = () => {
         setVisibleForm(false)
         {console.log('%cBooleano para ocultar formulario:', 'color: pink; font-weight: bold;', visibleForm)}
         setFormUpdate(form)
+        setErrors({});
     }
     return {
         form,
         usersList,
         formUpdate,
         visibleForm,
+        errors,
         handlerUser,
         handlerDeleteUser,
         handlerUserForm,
