@@ -138,6 +138,7 @@ const useUsers = () => {
         setVisibleForm(false)
         {console.log('%cBooleano para ocultar formulario:', 'color: pink; font-weight: bold;', visibleForm)}
         setFormUpdate(form)
+        setErrors({});
     }
     return {
         form,

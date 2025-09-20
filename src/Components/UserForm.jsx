@@ -4,7 +4,7 @@ import { UserContext } from '../Context/UserContext';
 
 const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
 
-    const {handlerUser, form} = useContext(UserContext);
+    const {handlerUser, form, errors} = useContext(UserContext);
 
     const [formState, setFormState] = useState(form);
 
@@ -105,7 +105,6 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
         // Llama al manejador del formulario de usuario con los datos actualizados, incluyendo el nuevo ID
         handlerUser(formState);
 
-        setFormState(form)
 
     }
 
@@ -120,6 +119,7 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
                     name='username'
                     value={username}
                     onChange={event => { onInputChange(event) }} />
+                    <p className='text-danger'>{errors?.username}</p>
                 {id > 0 || <input
                     className='form-control my-3 w-75'
                     placeholder='Password'
@@ -127,12 +127,14 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
                     value={password}
                     name='password'
                     onChange={event => { onInputChange(event) }} />}
+                    <p className='text-danger'>{errors?.password}</p>
                 <input
                     className='form-control my-3 w-75'
                     placeholder='Email'
                     name='email'
                     value={email}
                     onChange={onInputChange} />
+                    <p className='text-danger'>{errors?.email}</p>
                 <div style={{ display: 'flex', gap: '16px' }}>
                     <button
                         className='btn btn-primary'
