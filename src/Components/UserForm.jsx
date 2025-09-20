@@ -32,59 +32,59 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
         event.preventDefault();
 
         // Validación de username
-        if (!username.trim()) {
-            Swal.fire({
-                title: "Error con el nombre",
-                text: "El nombre no debe estar vacío",
-                icon: "error"
-            });
-            return;
-        }
-        if (username.length < 3) {
-            Swal.fire({
-                title: "Error con el nombre",
-                text: "El nombre debe tener al menos 3 caracteres",
-                icon: "error"
-            });
-            return;
-        }
+        // if (!username.trim()) {
+        //     Swal.fire({
+        //         title: "Error con el nombre",
+        //         text: "El nombre no debe estar vacío",
+        //         icon: "error"
+        //     });
+        //     return;
+        // }
+        // if (username.length < 3) {
+        //     Swal.fire({
+        //         title: "Error con el nombre",
+        //         text: "El nombre debe tener al menos 3 caracteres",
+        //         icon: "error"
+        //     });
+        //     return;
+        // }
 
         // Validación de password en caso de que sea un nuevo usuario y no tenga contraseña
         // Si el ID es 0, significa que es un nuevo usuario pero si no es así, se permite que el usuario mantenga su contraseña
         // Esto es para que no se valide cuando el usuario está editando su información
-        if (!password && id === 0) {
+        // if (!password && id === 0) {
 
             // Validación de password
-            if (password.length < 8) {
-                Swal.fire({
-                    title: "Error con la contraseña",
-                    text: "La contraseña debe tener mínimo 8 caracteres",
-                    icon: "error"
-                });
-                return;
-            }
+            // if (password.length < 8) {
+            //     Swal.fire({
+            //         title: "Error con la contraseña",
+            //         text: "La contraseña debe tener mínimo 8 caracteres",
+            //         icon: "error"
+            //     });
+            //     return;
+            // }
             // Ejemplo: al menos una mayúscula, una minúscula y un número
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-            if (!passwordRegex.test(password)) {
-                Swal.fire({
-                    title: "Error con la contraseña",
-                    text: "La contraseña debe contener al menos una mayúscula, una minúscula y un número",
-                    icon: "error"
-                });
-                return;
-            }
-        }
+            // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+            // if (!passwordRegex.test(password)) {
+            //     Swal.fire({
+            //         title: "Error con la contraseña",
+            //         text: "La contraseña debe contener al menos una mayúscula, una minúscula y un número",
+            //         icon: "error"
+            //     });
+            //     return;
+            // }
+        // }
 
         // Validación de email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email.trim() || !emailRegex.test(email)) {
-            Swal.fire({
-                title: "Error con el correo electrónico",
-                text: "Ingrese un correo electrónico válido",
-                icon: "error"
-            });
-            return;
-        }
+        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // if (!email.trim() || !emailRegex.test(email)) {
+        //     Swal.fire({
+        //         title: "Error con el correo electrónico",
+        //         text: "Ingrese un correo electrónico válido",
+        //         icon: "error"
+        //     });
+        //     return;
+        // }
 
         // Calcula el siguiente ID para el usuario.
         // Si el ID del formulario es 0 (nuevo usuario), busca el mayor ID en la lista de usuarios almacenada en sessionStorage,
