@@ -75,9 +75,19 @@ const useUsers = () => {
         navigate('/users')
         {console.log('%cUsuario guardado:', 'color: green; font-weight: bold;', infoUser.username)}
     }catch(error){
-        if(error.response && error.response.status){
+        if(error.response && error.response.status === 400){
             setErrors(error.response.data)
             console.log(errors)
+        } else if(error.response && error.response.status === 500
+            && errors.response.data?.message.includes('constraint')){
+            
+            if(errors.response.data?.message.includes('UK_username')){
+                setErrors({username: "El username ya existe"})
+            }
+            if (errors.response.data?.message.includes('UK_email')){
+                setErrors({email: "El email ya existe"})
+            }
+
         } else {
             throw error;
         }
