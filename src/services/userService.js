@@ -1,7 +1,13 @@
 import axios from "axios"
 
-
 const BASE_URL = "http://localhost:8080/users"
+const config = {
+    headers: {
+        "Authorization": sessionStorage.getItem("token"),
+        "Content-Type": "application/json"//Se envia por defecto
+
+    }
+}
 /**
  * Obtiene todos los usuarios desde el servidor.
  * Realiza una petición GET a la URL especificada y retorna la respuesta.
@@ -28,7 +34,8 @@ export const save = async ({username, email, password}) => {
             username,
             email,
             password
-        })
+        },
+    config)
     }catch(error){
         throw error;
     }
@@ -40,7 +47,8 @@ export const update = async ({id, username, email}) => {
             {
                 username,
                 email,
-            }
+            },
+            config
         )
 
     }catch(error){
@@ -50,7 +58,7 @@ export const update = async ({id, username, email}) => {
 
 export const remove = (id) => {
     try{
-        axios.delete(`${BASE_URL}/${id}`)
+        axios.delete(`${BASE_URL}/${id}`, config)
     }catch(error){
         console.error(error)
     }
