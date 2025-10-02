@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import UsersRow from "./UsersRow";
+import { AuthContext } from "../Auth/Context/AuthContext";
 
 
-const UsersList = ({users = [] }) => {
-    
+const UsersList = ({ users = [] }) => {
+
+    const { login } = useContext(AuthContext);
+
     return (
         <div>
 
@@ -12,20 +16,24 @@ const UsersList = ({users = [] }) => {
                         <th>#</th>
                         <th>username</th>
                         <th>email</th>
-                        <th>update</th>
-                        <th>update route</th>
-                        <th>remove</th>
+                        {!login.isAdmin ||
+                            <>
+                                <th>update</th>
+                                <th>update route</th>
+                                <th>remove</th>
+                            </>
+                        }
                     </tr>
                 </thead>
                 <tbody>
                     {
                         users.map(({ id, username, email }) => (
                             <UsersRow
-                                key={ id }
-                                id={ id }
-                                username={ username }
-                                email={ email }
-                                />
+                                key={id}
+                                id={id}
+                                username={username}
+                                email={email}
+                            />
                         ))
                     }
                 </tbody>

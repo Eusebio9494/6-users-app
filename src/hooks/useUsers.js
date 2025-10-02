@@ -1,8 +1,9 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import { usersReducer } from '../reducers/usersReducer';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { findAll, remove, save, update } from '../services/userService';
+import { AuthContext } from '../Auth/Context/AuthContext';
 
 // const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
 const useListSession = []
@@ -24,6 +25,7 @@ const useUsers = () => {
     //* Controla la visibilidad del formulario
     const [visibleForm, setVisibleForm] = useState(false)
     const navigate = useNavigate();
+    const {login} = useContext(AuthContext);
 
     const [errors, setErrors] = useState(initialErrors);
 
@@ -48,6 +50,9 @@ const useUsers = () => {
     }
 
     const handlerUser = async(infoUser) => {
+        if(!login.isAdmin){
+            return;
+        }
         // Verifica si el usuario ya existe por ID
         try{
 
@@ -103,6 +108,9 @@ const useUsers = () => {
     }, [usersList])
 
     const handlerDeleteUser = async(id) => {
+        if(!login.isAdmin){
+            return;
+        }
         console.log(id);
         
 
