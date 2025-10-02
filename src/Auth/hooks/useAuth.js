@@ -19,18 +19,19 @@ export const useAuth = () => {
     try{
       const response = await validateUser({ username, password });
       const token = response.data.token;
-      const claims = JSON.parse(window.atob(token.split("."[1])));
-      const user = { username: claims.username }
+      const claims = JSON.parse(window.atob(token.split(".")[1]));
+      console.log(claims)
+      const user = { username: claims.sub }
       dispatch(
         {
           type: 'LOGIN',
-          payload: {user, isAdmin: claims.isAdmin}
+          payload: {user, isAdmin: claims.admin}
         }
       )
       sessionStorage.setItem("login", JSON.stringify({
         isAuth: true,
-        isAdmin,
-        user
+        isAdmin: claims.admin,
+        user: user
       }));
       sessionStorage.setItem("token", `Bearer ${token}`)
 
