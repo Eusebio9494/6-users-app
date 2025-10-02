@@ -6,6 +6,7 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
   isAuth: false,
+  isAdmin: false,
   user: undefined
 }
 export const useAuth = () => {
@@ -14,24 +15,37 @@ export const useAuth = () => {
   const navigate = useNavigate();
 
 
-  const handlerLogin = ({ username, password }) => {
-    const isLogin = validateUser({ username, password });
-    if (isLogin) {
-      const user = { username: 'admin' }
+  const handlerLogin = async({ username, password }) => {
+    try{
+      const response = await validateUser({ username, password });
+      const token = response.data.token;
+      const claims = JSON.parse(window.atob(token.split(".")[1]));
+      console.log(claims)
+      const user = { username: claims.sub }
       dispatch(
         {
           type: 'LOGIN',
-          payload: user,
+          payload: {user, isAdmin: claims.admin}
         }
       )
       sessionStorage.setItem("login", JSON.stringify({
         isAuth: true,
-        user
+        isAdmin: claims.admin,
+        user: user
       }));
+      sessionStorage.setItem("token", `Bearer ${token}`)
 
       navigate('/users');
-    } else {
-      Swal.fire('Error de validación', 'Username y password incorrectos', 'error')
+    } catch(error) {
+      if (error.response?.status == 401){
+        Swal.fire('Error de validación', 'Username y password incorrectos', 'error')
+        
+      }else if(error.response?.status ==403){
+        Swal.fire('Error de validación', 'No tiene acceso al recurso o permisos', 'error')
+
+      } else {
+        throw error;
+      }
     }
   }
 
@@ -41,7 +55,9 @@ export const useAuth = () => {
         type: 'LOGOUT'
       }
     );
+    sessionStorage.removeItem("token");
     sessionStorage.removeItem("login");
+    sessionStorage.clear()
   }
 
   return {

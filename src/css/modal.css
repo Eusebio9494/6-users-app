@@ -1,0 +1,46 @@
+/*Aplica estilos al modal que seria todo el fondo*/
+.modal-modal{
+    display: block;
+    background: rgba(5, 7, 90, 0.91);
+    min-height: 100vh;
+}
+
+.dialog {
+    border-radius: 16px;
+}
+/*Aplica desde el header hasta el footer en un modal*/
+.content {
+    border-radius: 25px 25px 25px 25px;
+    background: linear-gradient(135deg, #faf9f5 0%, #c3cfe2 100%);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+
+
+.header {
+    border-radius: 25px 25px 0 0; /*Sentido de las manecillas del reloj*/
+    background: linear-gradient(90deg, #8ec5fc 0%, #e0c3fc 100%);
+}
+
+.form {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    border-radius: 0 0 0 0;
+    padding: 24px;
+}
+
+.form-input {
+    background-color: #f7faff;
+    border-radius: 20px;
+    border: 1px solid #c3e2d5;
+}
+
+.pie {
+    border-radius: 0 0 16px 16px;
+}
+
+.button {
+    border-radius: 8px;
+    background: linear-gradient(65deg, #a9e7f0ff 0%, #e0c3fc 100%);
+    border: none;
+    color: #42303eb6;
+    font-weight: bold;
+}
