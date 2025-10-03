@@ -25,7 +25,7 @@ const useUsers = () => {
     //* Controla la visibilidad del formulario
     const [visibleForm, setVisibleForm] = useState(false)
     const navigate = useNavigate();
-    const {login} = useContext(AuthContext);
+    const {login, handlerLogout} = useContext(AuthContext);
 
     const [errors, setErrors] = useState(initialErrors);
 
@@ -91,8 +91,9 @@ const useUsers = () => {
             }
             if (errors.response.data?.message.includes('UK_email')){
                 setErrors({email: "El email ya existe"})
+            } else if(error.response.status === 401){
+                handlerLogout();
             }
-
         } else {
             throw error;
         }
@@ -122,20 +123,27 @@ const useUsers = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Si, eliminar"
-        }).then((result) => {
+        }).then(async(result) => {
             if (result.isConfirmed) {
-                remove(id);
-                dispatch(
-                    {
-                        type: 'RemoveUser',
-                        payload: id
+                try{
+                    await remove(id);
+                    dispatch(
+                        {
+                            type: 'RemoveUser',
+                            payload: id
+                        }
+                    )
+                    Swal.fire({
+                        title: "Eliminado!",
+                        text: "El usuario ha sido eliminado",
+                        icon: "success"
+                    });
+
+                }catch(error){
+                    if(error.response.status === 401){
+                     handlerLogout();
                     }
-                )
-                Swal.fire({
-                    title: "Eliminado!",
-                    text: "El usuario ha sido eliminado",
-                    icon: "success"
-                });
+                }
             }
         });
     }

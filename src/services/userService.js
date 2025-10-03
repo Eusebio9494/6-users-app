@@ -58,10 +58,10 @@ export const update = async ({ id, username, email }) => {
     }
 };
 
-export const remove = (id) => {
+export const remove = async(id) => {
     try {
-        axios.delete(`${BASE_URL}/${id}`, config())
+        await axios.delete(`${BASE_URL}/${id}`, config())
     } catch (error) {
-        console.error(error)
+        throw error;
     }
 }
