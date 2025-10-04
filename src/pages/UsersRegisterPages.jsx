@@ -3,6 +3,7 @@ import UserForm from '../Components/UserForm';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
 
+
 const UsersRegisterPages = () => {
 
   const { usersList = [], form } = useContext(UserContext)
@@ -11,6 +12,14 @@ const UsersRegisterPages = () => {
 
   const {id} = useParams();
 
+    /**
+   * useEffect hook que se ejecuta cada vez que cambia el parámetro 'id' de la URL.
+   * 
+   * - Busca en la lista de usuarios (`usersList`) el usuario cuyo `id` coincide con el parámetro `id`.
+   * - Si encuentra el usuario, actualiza el estado `userSelectedForm` con los datos de ese usuario.
+   * - Si no lo encuentra, utiliza el formulario por defecto (`form`).
+   * - Esto permite que el formulario muestre los datos del usuario a editar o un formulario vacío para registrar uno nuevo.
+   */
   useEffect(() => {
     console.log(id)
     const user = usersList.find(u => u.id == id) || form
