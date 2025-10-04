@@ -4,11 +4,13 @@ import { UserContext } from '../Context/UserContext';
 
 const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
 
-    const {handlerUser, form, errors} = useContext(UserContext);
+    const { handlerUser, form, errors } = useContext(UserContext);
 
     const [formState, setFormState] = useState(form);
 
-    const { id, username, password, email } = formState;
+    const { id, username, password, email, admin} = formState;
+
+    const [checked, setChecked] = useState(formState.admin)
 
     useEffect(() => {
         console.log("Default Form: ", formState);
@@ -17,6 +19,11 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
             password: ''
         });
     }, [userSelectedForm])
+
+    const onCheckboxChange = () => {
+        setChecked(!checked);
+        setFormState({...formState, admin: checked})
+    }
 
     const onInputChange = ({ target }) => {
 
@@ -54,25 +61,25 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
         // Esto es para que no se valide cuando el usuario está editando su información
         // if (!password && id === 0) {
 
-            // Validación de password
-            // if (password.length < 8) {
-            //     Swal.fire({
-            //         title: "Error con la contraseña",
-            //         text: "La contraseña debe tener mínimo 8 caracteres",
-            //         icon: "error"
-            //     });
-            //     return;
-            // }
-            // Ejemplo: al menos una mayúscula, una minúscula y un número
-            // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-            // if (!passwordRegex.test(password)) {
-            //     Swal.fire({
-            //         title: "Error con la contraseña",
-            //         text: "La contraseña debe contener al menos una mayúscula, una minúscula y un número",
-            //         icon: "error"
-            //     });
-            //     return;
-            // }
+        // Validación de password
+        // if (password.length < 8) {
+        //     Swal.fire({
+        //         title: "Error con la contraseña",
+        //         text: "La contraseña debe tener mínimo 8 caracteres",
+        //         icon: "error"
+        //     });
+        //     return;
+        // }
+        // Ejemplo: al menos una mayúscula, una minúscula y un número
+        // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+        // if (!passwordRegex.test(password)) {
+        //     Swal.fire({
+        //         title: "Error con la contraseña",
+        //         text: "La contraseña debe contener al menos una mayúscula, una minúscula y un número",
+        //         icon: "error"
+        //     });
+        //     return;
+        // }
         // }
 
         // Validación de email
@@ -101,7 +108,7 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
         // console.log("Next ID:", nextId + 1);
 
 
-        {console.log('%cUsuario a agregar:', 'color: green; font-weight: bold;', formState)}
+        { console.log('%cUsuario a agregar:', 'color: green; font-weight: bold;', formState) }
         // Llama al manejador del formulario de usuario con los datos actualizados, incluyendo el nuevo ID
         handlerUser(formState);
 
@@ -119,7 +126,7 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
                     name='username'
                     value={username}
                     onChange={event => { onInputChange(event) }} />
-                    <p className='text-danger'>{errors?.username}</p>
+                <p className='text-danger'>{errors?.username}</p>
                 {id > 0 || <input
                     className='form-control my-3 w-75'
                     placeholder='Password'
@@ -127,14 +134,24 @@ const UserForm = ({ userSelectedForm, handlerCloseeForm }) => {
                     value={password}
                     name='password'
                     onChange={event => { onInputChange(event) }} />}
-                    <p className='text-danger'>{errors?.password}</p>
+                <p className='text-danger'>{errors?.password}</p>
                 <input
                     className='form-control my-3 w-75'
                     placeholder='Email'
                     name='email'
                     value={email}
                     onChange={onInputChange} />
-                    <p className='text-danger'>{errors?.email}</p>
+                <p className='text-danger'>{errors?.email}</p>
+
+                <div className='my-3 form-check'>
+                    <input className="form-check-input" 
+                    type='checkbox'
+                    name='admin'
+                    checked={admin}
+                    onChange={onCheckboxChange}/>
+                <label className='form-check-label'>Admin</label>
+                </div>
+
                 <div style={{ display: 'flex', gap: '16px' }}>
                     <button
                         className='btn btn-primary'

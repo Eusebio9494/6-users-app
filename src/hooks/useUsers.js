@@ -11,7 +11,8 @@ const form = {
     id: 0,
     username: "",
     password: "",
-    email: ""
+    email: "",
+    admin: false,
 }
 const initialErrors= {
     username: "",
@@ -91,10 +92,11 @@ const useUsers = () => {
             }
             if (errors.response.data?.message.includes('UK_email')){
                 setErrors({email: "El email ya existe"})
-            } else if(error.response.status === 401){
+            } 
+        }else if(error.response.status === 401){
                 handlerLogout();
-            }
-        } else {
+                console.log("Hacer logout")
+        }else {
             throw error;
         }
     }

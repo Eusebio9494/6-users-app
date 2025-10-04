@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
 import { AuthContext } from '../Auth/Context/AuthContext';
 
-const UsersRow = ({ id, username, email }) => {
+const UsersRow = ({ id, username, email, admin }) => {
 
     const { handlerDeleteUser, handlerUserForm } = useContext(UserContext);
     const { login } = useContext(AuthContext);
@@ -23,7 +23,7 @@ const UsersRow = ({ id, username, email }) => {
                     <td>
                         <button type="button"
                             className="btn btn-secondary btn-sm"
-                            onClick={() => handlerUserForm({ id, username, email })}>
+                            onClick={() => handlerUserForm({ id, username, email, admin })}>
                             Update
                         </button>
                     </td>
@@ -42,6 +42,7 @@ const UsersRow = ({ id, username, email }) => {
                         </button>
                     </td>
                 </>}
+                <td><p style={{ fontWeight: 'bold', color: 'blue', fontSize: '1em' }}>{admin?"Administrador":"Usuario"}</p></td>
         </tr>
     );
 }

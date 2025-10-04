@@ -23,16 +23,18 @@ const UsersList = ({ users = [] }) => {
                                 <th>remove</th>
                             </>
                         }
+                        <th>rol</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        users.map(({ id, username, email }) => (
+                        users.map(({ id, username, email, admin }) => (
                             <UsersRow
                                 key={id}
                                 id={id}
                                 username={username}
                                 email={email}
+                                admin={admin}
                             />
                         ))
                     }
