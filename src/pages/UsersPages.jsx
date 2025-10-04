@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import UsersList from '../Components/UsersList';
 import UsersModalForm from '../Components/UsersModalForm';
 import { UserContext } from '../Context/UserContext';
+import { AuthContext } from '../Auth/Context/AuthContext';
 
 export const UsersPages = () => {
 
@@ -12,6 +13,7 @@ export const UsersPages = () => {
     getUsers
   } = useContext(UserContext);
 
+  const { login } = useContext(AuthContext)
   /**
    * Carga inicial de la lista de usuarios desde el backend mediante el contexto y la disposición del hook useUsers con la función 
    * getUsers que llama a la api rest de usuarios
@@ -38,7 +40,7 @@ export const UsersPages = () => {
         <div className='row'>
           <div className='col'>
             <h2 style={{ color: 'blue', fontSize: '15px', border: '1px solid black', padding: '8px' }}>Lista de usuarios</h2>
-            {visibleForm || <button className='btn btn-primary'
+            {(visibleForm || !login.isAdmin) || <button className='btn btn-primary'
               onClick={handlerOpenForm}
             >Agregar Usuario</button>
             }

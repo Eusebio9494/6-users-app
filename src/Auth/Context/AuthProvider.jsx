@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
             {
                 login,
                 handlerLogin,
-                handlerLogout
+                handlerLogout,
             }
         }>
             {children}
