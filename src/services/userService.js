@@ -18,9 +18,8 @@ export const findAll = async () => {
         const response = await usersApi.get()
         return response;
     } catch (error) {
-        console.error(error)
+        throw error;
     }
-    return null;
 }
 
 export const save = async ({ username, email, password, admin }) => {
