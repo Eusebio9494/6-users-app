@@ -13,3 +13,25 @@ If you are developing a production application, we recommend using TypeScript wi
 
 # 6-users-app
 Implementación de un servicio de usuarios con su login, según credenciales, contiene tambien acciones crud
+
+# Forma 1 para enviar cabeceras en axios
+const config = () => {
+    return {
+        headers: {
+            "Authorization": sessionStorage.getItem("token"),
+            "Content-Type": "application/json" //Se envia por defecto
+
+        }
+    }
+}
+
+# Para sumar ramificaciones a la url base basta con:
+// Esto hará una petición a: http://localhost:8080/users/pending
+const response = await usersApi.get('/pending');
+
+const response = await usersApi.get('/process/status');
+const response = await usersApi.get('/process/123/status');
+
+baseURL: 'http://localhost:8080/users'
+endpoint: lo que agregas en el método (.get('/pending'))
+URL final: axios concatena ambos → 'http://localhost:8080/users/pending'
