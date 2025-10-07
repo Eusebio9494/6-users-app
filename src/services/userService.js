@@ -1,15 +1,8 @@
 import axios from "axios"
+import { usersApi } from "../apis/usersApis";
 
-const BASE_URL = "http://localhost:8080/users"
-const config = () => {
-    return {
-        headers: {
-            "Authorization": sessionStorage.getItem("token"),
-            "Content-Type": "application/json" //Se envia por defecto
+const BASE_URL = ''
 
-        }
-    }
-}
 /**
  * Obtiene todos los usuarios desde el servidor.
  * Realiza una petición GET a la URL especificada y retorna la respuesta.
@@ -22,23 +15,21 @@ export const findAll = async () => {
     try {
         // Realiza una petición HTTP GET al servidor local en el endpoint '/users'.
         // Axios gestiona la solicitud y devuelve una promesa que contiene la respuesta del servidor.
-        const response = await axios.get(BASE_URL)
+        const response = await usersApi.get()
         return response;
     } catch (error) {
-        console.error(error)
+        throw error;
     }
-    return null;
 }
 
-export const save = async ({ username, email, password }) => {
+export const save = async ({ username, email, password, admin }) => {
     try {
-        return await axios.post(BASE_URL, {
+        return await usersApi.post(BASE_URL, {
             username,
             email,
             password,
             admin,
-        },
-            config())
+        })
     } catch (error) {
         throw error;
     }
@@ -46,13 +37,12 @@ export const save = async ({ username, email, password }) => {
 
 export const update = async ({ id, username, email, admin }) => {
     try {
-        return await axios.put(`${BASE_URL}/${id}?`,
+        return await usersApi.put(`${BASE_URL}/${id}?`,
             {
                 username,
                 email,
                 admin,
-            },
-            config()
+            }
         )
 
     } catch (error) {
@@ -62,7 +52,7 @@ export const update = async ({ id, username, email, admin }) => {
 
 export const remove = async(id) => {
     try {
-        await axios.delete(`${BASE_URL}/${id}`, config())
+        await usersApi.delete(`${BASE_URL}/${id}`);
     } catch (error) {
         throw error;
     }
