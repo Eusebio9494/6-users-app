@@ -40,14 +40,21 @@ const useUsers = () => {
      * @returns {Promise<void>} No retorna ningún valor, pero actualiza el estado global mediante dispatch.
      */
     const getUsers = async() => {
-        const response = await findAll()
-        console.log(response)
-        dispatch((
-            {
-                type: 'loadingUsers',
-                payload: response.data
+        try{
+            const response = await findAll()
+            console.log(response)
+            dispatch((
+                {
+                    type: 'loadingUsers',
+                    payload: response.data
+                }
+            ))
+
+        } catch(error){
+            if(error.response.status === 401){
+                handlerLogout();
             }
-        ))
+        }
     }
 
     const handlerUser = async(infoUser) => {

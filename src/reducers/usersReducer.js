@@ -8,7 +8,8 @@ export const usersReducer = (state = [], action) => {
                 username: action.payload.username,
                 email: action.payload.email,
                 password: action.payload.password,
-                id: action.payload.id
+                id: action.payload.id,
+                admin: action.payload.admin
             }
             ];
         case 'RemoveUser':
