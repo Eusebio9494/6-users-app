@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import UserForm from './UserForm';
-import { UserContext } from '../Context/UserContext';
+import useUsers from '../hooks/useUsers';
 
 const UsersModalForm = () => {
 
-  const { formUpdate, handlerCloseeForm } = useContext(UserContext);
+  const { formUpdate, handlerCloseeForm } = useUsers();
 
   return (
     <div className='col'>

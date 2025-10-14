@@ -2,17 +2,14 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { UsersPages } from '../pages/UsersPages';
 import Navbar from '../Components/layout/Navbar';
 import UsersRegisterPages from '../pages/UsersRegisterPages';
-import { UserProvider } from '../Context/UserProvider';
-import { useContext } from 'react';
-import { AuthContext } from '../Auth/Context/AuthContext';
+import { useAuth } from '../Auth/hooks/useAuth';
 
 const UserRoutes = () => {
 
-    const {login} = useContext(AuthContext);
+    const {login} = useAuth();
 
     return (
         <>
-            <UserProvider>
 
                 <Navbar />
                 <Routes>
@@ -25,7 +22,6 @@ const UserRoutes = () => {
                     <Route path='/' element={<Navigate to='/users' />} />
 
                 </Routes>
-            </UserProvider>
         </>
     );
 }

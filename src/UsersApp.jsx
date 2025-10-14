@@ -1,36 +1,16 @@
-import LoginPage from './Auth/pages/LoginPage';
-import { useAuth } from './Auth/hooks/useAuth';
-import UserRoutes from './routes/UserRoutes';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from './Auth/Context/AuthContext';
-
+import { Provider } from "react-redux";
+import AppRoutes from "./AppRoutes";
+import { store } from "./store/store";
 
 const UsersApp = () => {
 
-  const {login} = useContext(AuthContext)
+  return(
+    <Provider store={store}>
+      <AppRoutes />
+    </Provider>
+  )
 
-  return (
 
-    <Routes>
-      {!login.isAuth
-        ?
-        <>
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/*' element={<Navigate to='/login' />} />
-        
-        </>
-
-        : <>
-          <Route path='/*' element={
-            <UserRoutes/>
-          } />
-
-        </>
-      }
-
-    </Routes>
-  );
 }
 
 export default UsersApp;

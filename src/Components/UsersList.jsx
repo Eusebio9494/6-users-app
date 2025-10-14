@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import UsersRow from "./UsersRow";
-import { AuthContext } from "../Auth/Context/AuthContext";
+import { useAuth } from "../Auth/hooks/useAuth";
 
 
 const UsersList = ({ users = [] }) => {
 
-    const { login } = useContext(AuthContext);
+    const { login } = useAuth();
 
     return (
         <div>
