@@ -3,15 +3,19 @@ import Swal from 'sweetalert2';
 import { loginReducers } from '../reducers/loginReducer';
 import { validateUser } from '../service/authService';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOGIN, LOGOUT } from '../../store/slices/auth/authSlice';
 
-const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
-  isAuth: false,
-  isAdmin: false,
-  user: undefined
-}
+// const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
+//   isAuth: false,
+//   isAdmin: false,
+//   user: undefined
+// }
 export const useAuth = () => {
 
-  const [login, dispatch] = useReducer(loginReducers, initialLogin);
+  const {login} = useSelector(state => state.auth);
+  const dispatch = useDispatch()
+  // const [login, dispatch] = useReducer(loginReducers, initialLogin);
   const navigate = useNavigate();
 
 
@@ -22,12 +26,8 @@ export const useAuth = () => {
       const claims = JSON.parse(window.atob(token.split(".")[1]));
       console.log(claims)
       const user = { username: claims.sub }
-      dispatch(
-        {
-          type: 'LOGIN',
-          payload: {user, isAdmin: claims.admin}
-        }
-      )
+      dispatch(LOGIN({user, isAdmin: claims.admin}))
+
       sessionStorage.setItem("login", JSON.stringify({
         isAuth: true,
         isAdmin: claims.admin,
@@ -50,11 +50,7 @@ export const useAuth = () => {
   }
 
   const handlerLogout = () => {
-    dispatch(
-      {
-        type: 'LOGOUT'
-      }
-    );
+    dispatch(LOGOUT())
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("login");
     sessionStorage.clear()

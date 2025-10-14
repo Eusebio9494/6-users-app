@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { AuthContext } from '../Context/AuthContext';
 import '../../css/modal.css'
+import { useAuth } from '../hooks/useAuth';
 const initialForm = {
     username: '',
     password: ''
 }
 const LoginPage = () => {
 
-    const {handlerLogin} = useContext(AuthContext);
+    const {handlerLogin} = useAuth();
 
 
     const [loginForm, setLoginForm] = useState(initialForm);

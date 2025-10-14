@@ -1,12 +1,11 @@
-import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { UserContext } from '../Context/UserContext';
-import { AuthContext } from '../Auth/Context/AuthContext';
+import useUsers from '../hooks/useUsers';
+import { useAuth } from '../Auth/hooks/useAuth';
 
 const UsersRow = ({ id, username, email, admin }) => {
 
-    const { handlerDeleteUser, handlerUserForm } = useContext(UserContext);
-    const { login } = useContext(AuthContext);
+    const { handlerDeleteUser, handlerUserForm } = useUsers();
+    const { login } = useAuth();
 
     const onDeleteId = (id) => {
         handlerDeleteUser(id)

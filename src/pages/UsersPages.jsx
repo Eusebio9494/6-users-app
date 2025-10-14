@@ -1,8 +1,8 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import UsersList from '../Components/UsersList';
 import UsersModalForm from '../Components/UsersModalForm';
-import { UserContext } from '../Context/UserContext';
-import { AuthContext } from '../Auth/Context/AuthContext';
+import useUsers from '../hooks/useUsers';
+import { useAuth } from '../Auth/hooks/useAuth';
 
 export const UsersPages = () => {
 
@@ -11,9 +11,9 @@ export const UsersPages = () => {
     visibleForm,
     handlerOpenForm,
     getUsers
-  } = useContext(UserContext);
+  } = useUsers(); 
 
-  const { login } = useContext(AuthContext)
+  const { login } = useAuth()
   /**
    * Carga inicial de la lista de usuarios desde el backend mediante el contexto y la disposición del hook useUsers con la función 
    * getUsers que llama a la api rest de usuarios

@@ -2,11 +2,12 @@ import { useContext, useEffect, useState } from 'react';
 import UserForm from '../Components/UserForm';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
+import useUsers from '../hooks/useUsers';
 
 
 const UsersRegisterPages = () => {
 
-  const { usersList = [], form } = useContext(UserContext)
+  const { usersList = [], form } = useUsers()
 
   const [userSelectedForm, setUserSelectedForm] = useState(form);
 
