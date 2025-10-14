@@ -1,34 +1,18 @@
-import { useContext, useEffect, useReducer, useState } from 'react';
-import { usersReducer } from '../reducers/usersReducer';
+import { useEffect} from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { findAll, remove, save, update } from '../services/userService';
-import { AuthContext } from '../Auth/Context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddUser, form, loadingError, loadingUsers, onCloseeForm, onOpenForm, onUserForm, RemoveUser, UpdateUser } from '../store/slices/users/usersSlice';
+import { useAuth } from '../Auth/hooks/useAuth';
 
-// const useListSession = JSON.parse(sessionStorage.getItem("usersList")) || [];
-const useListSession = []
-const form = {
-    id: 0,
-    username: "",
-    password: "",
-    email: "",
-    admin: false,
-}
-const initialErrors= {
-    username: "",
-    password: "",
-    email: ""
-}
+
 const useUsers = () => {
 
-    const [usersList, dispatch] = useReducer(usersReducer, useListSession)
-    const [formUpdate, setFormUpdate] = useState(form)
-    //* Controla la visibilidad del formulario
-    const [visibleForm, setVisibleForm] = useState(false)
+    const {usersList, formUpdate, visibleForm, errors} = useSelector(state => state.users); //Extrae estados
+    const dispatch = useDispatch() //Invoca acciones/funciones que actualizan estados
     const navigate = useNavigate();
-    const {login, handlerLogout} = useContext(AuthContext);
-
-    const [errors, setErrors] = useState(initialErrors);
+    const {login, handlerLogout} = useAuth();
 
     /**
      * Obtiene la lista de usuarios de la API utilizando la función findAll,
@@ -43,13 +27,8 @@ const useUsers = () => {
         try{
             const response = await findAll()
             console.log(response)
-            dispatch((
-                {
-                    type: 'loadingUsers',
-                    payload: response.data
-                }
-            ))
-
+            dispatch(loadingUsers([...response.data]));
+            console.log(usersList)
         } catch(error){
             if(error.response.status === 401){
                 handlerLogout();
@@ -67,16 +46,10 @@ const useUsers = () => {
             const exists = usersList.some(user => user.id === infoUser.id);
             if (exists) {
                 let response = await update(infoUser)
-                dispatch({
-                    type: 'UpdateUser',
-                    payload: response.data,
-                });
+                dispatch(UpdateUser({...response.data}))
             } else {
                 let response = await save(infoUser)
-                dispatch({
-                    type: 'AddUser',
-                    payload: response.data
-                });
+                dispatch(AddUser({...response.data}))
             }
             
         Swal.fire({
@@ -89,16 +62,16 @@ const useUsers = () => {
         {console.log('%cUsuario guardado:', 'color: green; font-weight: bold;', infoUser.username)}
     }catch(error){
         if(error.response && error.response.status === 400){
-            setErrors(error.response.data)
+            dispatch(loadingError(error.response.data))
             console.log(errors)
         } else if(error.response && error.response.status === 500
             && errors.response.data?.message.includes('constraint')){
             
             if(errors.response.data?.message.includes('UK_username')){
-                setErrors({username: "El username ya existe"})
+                dispatch(loadingError({username: "El username ya existe"}))
             }
             if (errors.response.data?.message.includes('UK_email')){
-                setErrors({email: "El email ya existe"})
+                dispatch(loadingError({email: "El email ya existe"}))
             } 
         }else if(error.response.status === 401){
                 handlerLogout();
@@ -136,12 +109,7 @@ const useUsers = () => {
             if (result.isConfirmed) {
                 try{
                     await remove(id);
-                    dispatch(
-                        {
-                            type: 'RemoveUser',
-                            payload: id
-                        }
-                    )
+                    dispatch(RemoveUser(id))
                     Swal.fire({
                         title: "Eliminado!",
                         text: "El usuario ha sido eliminado",
@@ -159,21 +127,17 @@ const useUsers = () => {
 
     
     const handlerUserForm = (infoUserUpdate) => {
-        setFormUpdate({ ...infoUserUpdate })
-        setVisibleForm(true)   
+        dispatch(onUserForm({...infoUserUpdate}))  
     }
 
     // Abre el formulario cuando se selecciona un usuario para editar o se quiere crear uno nuevo
     const handlerOpenForm = () => {
-        setVisibleForm(true)
-        {console.log('%cBooleano para mostrar formulario:', 'color: pink; font-weight: bold;', visibleForm)}
+        dispatch(onOpenForm())
     }
     // Cierra el formulario cuando se cancela la edición o se envía el formulario
     const handlerCloseeForm = () => {
-        setVisibleForm(false)
-        {console.log('%cBooleano para ocultar formulario:', 'color: pink; font-weight: bold;', visibleForm)}
-        setFormUpdate(form)
-        setErrors({});
+        dispatch(onCloseeForm())
+        dispatch(loadingError({}));
     }
     return {
         form,
