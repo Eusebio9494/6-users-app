@@ -11,11 +11,22 @@ const BASE_URL = ''
  * @function
  * @returns {Promise<Object|null>} Retorna la respuesta de la petición si es exitosa, o null si ocurre un error.
  */
-export const findAll = async () => {
+export const findAll = async (page) => {
     try {
         // Realiza una petición HTTP GET al servidor local en el endpoint '/users'.
         // Axios gestiona la solicitud y devuelve una promesa que contiene la respuesta del servidor.
         const response = await usersApi.get()
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const findAllPage = async (page) => {
+    try {
+        // Realiza una petición HTTP GET al servidor local en el endpoint '/users'.
+        // Axios gestiona la solicitud y devuelve una promesa que contiene la respuesta del servidor.
+        const response = await usersApi.get(`/page/${page}`)
         return response;
     } catch (error) {
         throw error;

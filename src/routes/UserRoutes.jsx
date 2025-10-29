@@ -15,6 +15,7 @@ const UserRoutes = () => {
                 <Routes>
 
                     <Route path='users' element={<UsersPages/>} />
+                    <Route path='users/page/:page' element={<UsersPages/>} />
                     {!login.isAdmin || <>
                     <Route path='users/register' element={< UsersRegisterPages />} />
                     <Route path='users/edit/:id' element={< UsersRegisterPages />} />
