@@ -3,15 +3,22 @@ import UsersList from '../Components/UsersList';
 import UsersModalForm from '../Components/UsersModalForm';
 import useUsers from '../hooks/useUsers';
 import { useAuth } from '../Auth/hooks/useAuth';
+import { useParams } from 'react-router-dom';
+import Paginator from '../Components/Paginator';
 
 export const UsersPages = () => {
+
+
+  const { page } = useParams()
 
   const {
     usersList,
     visibleForm,
     handlerOpenForm,
-    getUsers
-  } = useUsers(); 
+    getUsers,
+    isLoading,
+    page: pagination
+  } = useUsers();
 
   const { login } = useAuth()
   /**
@@ -19,14 +26,28 @@ export const UsersPages = () => {
    * getUsers que llama a la api rest de usuarios
    */
   useEffect(() => {
-    getUsers();
-  }, [])
+    getUsers(page);
+  }, [, page])
 
+  if (isLoading) {
+    return (
+      <>
+        <div className='container my-4'>
+          <div className='text-center'>
+            <div className="spinner-border text-primary" style={{ width: 50, height: 50 }} role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </>
+    )
+  }
   return (
 
     <>
 
-      {!visibleForm ||
+
+      {visibleForm &&
         <UsersModalForm />
       }
 
@@ -47,9 +68,14 @@ export const UsersPages = () => {
             {console.log('%cBooleano para no mostrar boton Agregar Usuario:', 'color: green; font-weight: bold;', visibleForm)}
 
 
-            {usersList.length === 0
+            { usersList.length === 0
               ? <div className='alert alert-warning'>No hay usuarios en el sistema!</div>
-              : <UsersList users={usersList} />}
+              :
+              <div>
+                <UsersList users={usersList} />
+                <Paginator url="/users/page" page={pagination}/>
+              </div>
+            }
 
           </div>
 

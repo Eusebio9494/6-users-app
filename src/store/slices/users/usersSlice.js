@@ -17,9 +17,11 @@ export const usersSlice = createSlice({
     initialState: {
         //* Un arreglo vacio por defecto como en useUsers
         usersList: [],
+        page: {},
         formUpdate: form,
         visibleForm: false, //* Controla la visibilidad del formulario
-        errors: initialErrors
+        errors: initialErrors,
+        isLoading: true
     },
     reducers: {
         AddUser: (state, action) => {
@@ -44,7 +46,9 @@ export const usersSlice = createSlice({
             })
         },
         loadingUsers: (state, action) => {
-            state.usersList = action.payload
+            state.usersList = action.payload.content
+            state.page = action.payload
+            state.isLoading = false
         },
         onUserForm: (state, action) => {
             state.formUpdate = action.payload
@@ -75,5 +79,6 @@ export const {
     onUserForm,
     onOpenForm,
     onCloseeForm,
-    loadingError
+    loadingError,
+    isLoading
 } = usersSlice.actions

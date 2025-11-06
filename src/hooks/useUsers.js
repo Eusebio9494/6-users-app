@@ -1,7 +1,7 @@
 import { useEffect} from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import { findAll, remove, save, update } from '../services/userService';
+import { findAll, findAllPage, remove, save, update } from '../services/userService';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddUser, form, loadingError, loadingUsers, onCloseeForm, onOpenForm, onUserForm, RemoveUser, UpdateUser } from '../store/slices/users/usersSlice';
 import { useAuth } from '../Auth/hooks/useAuth';
@@ -9,7 +9,7 @@ import { useAuth } from '../Auth/hooks/useAuth';
 
 const useUsers = () => {
 
-    const {usersList, formUpdate, visibleForm, errors} = useSelector(state => state.users); //Extrae estados
+    const {usersList, formUpdate, visibleForm, errors, isLoading, page} = useSelector(state => state.users); //Extrae estados
     const dispatch = useDispatch() //Invoca acciones/funciones que actualizan estados
     const navigate = useNavigate();
     const {login, handlerLogout} = useAuth();
@@ -23,13 +23,13 @@ const useUsers = () => {
      * @function getUsers
      * @returns {Promise<void>} No retorna ningún valor, pero actualiza el estado global mediante dispatch.
      */
-    const getUsers = async() => {
+    const getUsers = async(pageNumber = 0) => {
         try{
-            const response = await findAll()
+            const response = await findAllPage(pageNumber)
             console.log(response)
-            dispatch(loadingUsers([...response.data]));
-            console.log(usersList)
+            dispatch(loadingUsers({...response.data}));
         } catch(error){
+            console.error(error)
             if(error.response.status === 401){
                 handlerLogout();
             }
@@ -58,7 +58,7 @@ const useUsers = () => {
             icon: "success"
         });
         handlerCloseeForm();
-        navigate('/users')
+        navigate(`/users/page/${page.number}`)
         {console.log('%cUsuario guardado:', 'color: green; font-weight: bold;', infoUser.username)}
     }catch(error){
         if(error.response && error.response.status === 400){
@@ -110,6 +110,7 @@ const useUsers = () => {
                 try{
                     await remove(id);
                     dispatch(RemoveUser(id))
+                    calculatePage()
                     Swal.fire({
                         title: "Eliminado!",
                         text: "El usuario ha sido eliminado",
@@ -139,12 +140,15 @@ const useUsers = () => {
         dispatch(onCloseeForm())
         dispatch(loadingError({}));
     }
+    
     return {
         form,
         usersList,
         formUpdate,
         visibleForm,
         errors,
+        isLoading,
+        page,
         handlerUser,
         handlerDeleteUser,
         handlerUserForm,

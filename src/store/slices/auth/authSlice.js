@@ -10,7 +10,8 @@ const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    login: initialLogin
+    login: initialLogin,
+    isLoginLoading: false,
   },
   reducers: {
     LOGIN: (state, action)  => {
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
                 user: action.payload.user,
                 isAdmin: action.payload.isAdmin,
             }
+      state.isLoginLoading = false;
     },
     LOGOUT: (state) => {  
       state.login = {
@@ -26,11 +28,16 @@ export const authSlice = createSlice({
                 isAdmin: false,
                 user: undefined,
             }
+      state.isLoginLoading = false;
+    },
+    ONLOADING: (state, action) => {
+      state.isLoginLoading = true;
     }
   }
 })
 
 export const {
   LOGIN,
-  LOGOUT
+  LOGOUT,
+  ONLOADING
 } = authSlice.actions;
