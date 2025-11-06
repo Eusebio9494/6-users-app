@@ -4,7 +4,7 @@ import { loginReducers } from '../reducers/loginReducer';
 import { validateUser } from '../service/authService';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOGIN, LOGOUT } from '../../store/slices/auth/authSlice';
+import { LOGIN, LOGOUT, ONLOADING } from '../../store/slices/auth/authSlice';
 
 // const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
 //   isAuth: false,
@@ -13,7 +13,7 @@ import { LOGIN, LOGOUT } from '../../store/slices/auth/authSlice';
 // }
 export const useAuth = () => {
 
-  const {login} = useSelector(state => state.auth);
+  const {login, isLoginLoading} = useSelector(state => state.auth);
   const dispatch = useDispatch()
   // const [login, dispatch] = useReducer(loginReducers, initialLogin);
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ export const useAuth = () => {
 
   const handlerLogin = async({ username, password }) => {
     try{
+      dispatch(ONLOADING());
       const response = await validateUser({ username, password });
       const token = response.data.token;
       const claims = JSON.parse(window.atob(token.split(".")[1]));
@@ -39,6 +40,7 @@ export const useAuth = () => {
     } catch(error) {
       if (error.response?.status == 401){
         Swal.fire('Error de validación', 'Username y password incorrectos', 'error')
+        dispatch(LOGOUT())
         
       }else if(error.response?.status ==403){
         Swal.fire('Error de validación', 'No tiene acceso al recurso o permisos', 'error')
@@ -58,6 +60,7 @@ export const useAuth = () => {
 
   return {
     login,
+    isLoginLoading,
     handlerLogin,
     handlerLogout
   }
