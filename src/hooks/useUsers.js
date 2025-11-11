@@ -3,13 +3,15 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { findAll, findAllPage, remove, save, update } from '../services/userService';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddUser, form, loadingError, loadingUsers, onCloseeForm, onOpenForm, onUserForm, RemoveUser, UpdateUser } from '../store/slices/users/usersSlice';
+import { AddUser, form, loadingError, loadingUsers, onCloseeForm, onOpenForm, onUserForm, RemoveUser, UpdateUser
+    , setPageSize
+ } from '../store/slices/users/usersSlice';
 import { useAuth } from '../Auth/hooks/useAuth';
 
 
 const useUsers = () => {
 
-    const {usersList, formUpdate, visibleForm, errors, isLoading, page} = useSelector(state => state.users); //Extrae estados
+    const {usersList, formUpdate, visibleForm, errors, isLoading, page, sizePage} = useSelector(state => state.users); //Extrae estados
     const dispatch = useDispatch() //Invoca acciones/funciones que actualizan estados
     const navigate = useNavigate();
     const {login, handlerLogout} = useAuth();
@@ -23,11 +25,12 @@ const useUsers = () => {
      * @function getUsers
      * @returns {Promise<void>} No retorna ningún valor, pero actualiza el estado global mediante dispatch.
      */
-    const getUsers = async(pageNumber = 0) => {
+    const getUsers = async(pageNumber = 0, sizePage) => {
         try{
-            const response = await findAllPage(pageNumber)
-            console.log(response)
-            dispatch(loadingUsers({...response.data}));
+            console.log("pageNumber, sizePage", pageNumber, sizePage)
+            const response = await findAllPage(pageNumber, sizePage)
+            dispatch(loadingUsers(response.data));
+            return response;
         } catch(error){
             console.error(error)
             if(error.response.status === 401){
@@ -50,6 +53,11 @@ const useUsers = () => {
             } else {
                 let response = await save(infoUser)
                 dispatch(AddUser({...response.data}))
+                // obtener información actualizada de paginación desde el backend
+                const resp = await getUsers(0, sizePage); // primera llamada para obtener totalPages actualizado
+                const lastPage = Math.max(0, (resp.data.totalPages || 1) - 1);
+                // await getUsers(lastPage, sizePage); // cargar la última página donde estará el nuevo elemento
+                navigate(`/users/page/${lastPage}`);
             }
             
         Swal.fire({
@@ -58,7 +66,6 @@ const useUsers = () => {
             icon: "success"
         });
         handlerCloseeForm();
-        navigate(`/users/page/${page.number}`)
         {console.log('%cUsuario guardado:', 'color: green; font-weight: bold;', infoUser.username)}
     }catch(error){
         if(error.response && error.response.status === 400){
@@ -109,8 +116,20 @@ const useUsers = () => {
             if (result.isConfirmed) {
                 try{
                     await remove(id);
+                    // ahora preguntar al backend cómo quedó la página actual
+                    const resp = await getUsers(page.number);
+                    // si la página actual quedó vacía y no es la 0, retroceder a la anterior
+                    const contentLength = (resp?.data?.content?.length) ?? 0;
+                    const currentNumber = (resp?.data?.number) ?? page.number;
+                    if (contentLength === 0 && currentNumber > 0) {
+                        const newPage = currentNumber - 1;
+                        await getUsers(newPage);
+                        navigate(`/users/page/${newPage}`);
+                    } else {
+                        // quedarse en la misma página
+                        navigate(`/users/page/${currentNumber}`);
+                    }
                     dispatch(RemoveUser(id))
-                    calculatePage()
                     Swal.fire({
                         title: "Eliminado!",
                         text: "El usuario ha sido eliminado",
@@ -140,6 +159,12 @@ const useUsers = () => {
         dispatch(onCloseeForm())
         dispatch(loadingError({}));
     }
+
+    // Ajusta el tamaño de la página y recarga los usuarios
+    const settingPageSize = (pageSize) => {
+        dispatch(setPageSize(Number(pageSize)))
+        navigate(`/users/page/0?sizePage=${pageSize}`);
+    }
     
     return {
         form,
@@ -149,12 +174,14 @@ const useUsers = () => {
         errors,
         isLoading,
         page,
+        sizePage,
         handlerUser,
         handlerDeleteUser,
         handlerUserForm,
         handlerCloseeForm,
         handlerOpenForm,
-        getUsers
+        getUsers,
+        settingPageSize
     }
 }
 

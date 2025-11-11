@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import '../../css/modal.css'
 import { useAuth } from '../hooks/useAuth';
+import usePageLogin from '../hooks/usePageLogin';
 const initialForm = {
     username: '',
     password: ''
@@ -31,6 +32,9 @@ const LoginPage = () => {
         handlerLogin({ username, password })
         setLoginForm(initialForm);
     }
+
+    // Establece el título de la página utilizando el hook personalizado
+    usePageLogin();
 
     return (
         <div className="modal modal-modal" tabIndex="-1">
