@@ -4,7 +4,7 @@ import { useAuth } from '../Auth/hooks/useAuth';
 
 const UsersRow = ({ id, username, email, admin }) => {
 
-    const { handlerDeleteUser, handlerUserForm } = useUsers();
+    const { handlerDeleteUser, handlerUserForm, calculatePage } = useUsers();
     const { login } = useAuth();
 
     const onDeleteId = (id) => {

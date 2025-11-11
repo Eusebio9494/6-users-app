@@ -3,7 +3,8 @@ import UserForm from '../Components/UserForm';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
 import useUsers from '../hooks/useUsers';
-
+import '../css/UserList.css'
+import usePageTitle from '../hooks/usePageTitle';
 
 const UsersRegisterPages = () => {
 
@@ -26,10 +27,13 @@ const UsersRegisterPages = () => {
     const user = usersList.find(u => u.id == id) || form
     setUserSelectedForm(user);
   }, [id])
+
+  // Establece el título de la página dinámicamente según si se está editando o registrando un usuario
+  usePageTitle(userSelectedForm.id > 0 ? 'Editar Usuario' : 'Registrar Usuario');
   
   return (
 
-      <div className='container my-4'>
+      <div className='container my-4 content-page'>
         <h4>
           {userSelectedForm.id>0 ? 'Editar Usuario': 'Registrar Usuario'}
         </h4>
