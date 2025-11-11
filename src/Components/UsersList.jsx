@@ -7,9 +7,9 @@ const UsersList = ({ users = [] }) => {
     const { login } = useAuth();
 
     return (
-        <div>
+        <div className="table-responsive-container">
 
-            <table className='table table-hover table-striped'>
+            <table className='table table-hover table-striped table-sm table-bordered my-4 table-container'>
                 <thead>
                     <tr>
                         <th>#</th>

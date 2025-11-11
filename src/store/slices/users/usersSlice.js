@@ -21,7 +21,8 @@ export const usersSlice = createSlice({
         formUpdate: form,
         visibleForm: false, //* Controla la visibilidad del formulario
         errors: initialErrors,
-        isLoading: true
+        isLoading: true,
+        sizePage: 6
     },
     reducers: {
         AddUser: (state, action) => {
@@ -67,6 +68,9 @@ export const usersSlice = createSlice({
         //Se puede desestructurar el payload del action
         loadingError: (state, {payload}) => {
             state.errors = payload
+        },
+        setPageSize: (state, action) => {
+            state.sizePage = Number(action.payload)
         }
     }
 })
@@ -80,5 +84,6 @@ export const {
     onOpenForm,
     onCloseeForm,
     loadingError,
-    isLoading
+    isLoading,
+    setPageSize
 } = usersSlice.actions

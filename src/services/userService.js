@@ -22,11 +22,11 @@ export const findAll = async (page) => {
     }
 }
 
-export const findAllPage = async (page) => {
+export const findAllPage = async (page, size) => {
     try {
         // Realiza una petición HTTP GET al servidor local en el endpoint '/users'.
         // Axios gestiona la solicitud y devuelve una promesa que contiene la respuesta del servidor.
-        const response = await usersApi.get(`/page/${page}`)
+        const response = await usersApi.get(`/page/${page}?size=${size}`)
         return response;
     } catch (error) {
         throw error;
