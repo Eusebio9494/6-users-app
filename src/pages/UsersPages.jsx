@@ -31,7 +31,7 @@ export const UsersPages = () => {
    */
   useEffect(() => {
     getUsers(page, sizePage);
-  }, [page])
+  }, [page, sizePage]);
 
   // Establece el título de la página utilizando el hook personalizado usePageTitle
   usePageTitle('Users List');
