@@ -31,7 +31,7 @@ export const UsersPages = () => {
    */
   useEffect(() => {
     getUsers(page, sizePage);
-  }, [page])
+  }, [page, sizePage]);
 
   // Establece el título de la página utilizando el hook personalizado usePageTitle
   usePageTitle('Users List');
@@ -63,17 +63,20 @@ export const UsersPages = () => {
             <h2 className="text-center" style={{ color: 'white', fontFamily: 'Arial, sans-serif', fontSize: '15px', border: '1px solid blue', padding: '8px' }}>Lista de usuarios</h2>
             <div className='d-flex justify-content-between align-items-center mb-1'>
               {!visibleForm && login.isAdmin && (
+                <>
+                  <button className="btn btn-primary" onClick={handlerOpenForm}>
+                    Agregar Usuario
+                  </button>
 
-                <button className="btn btn-primary" onClick={handlerOpenForm}>
-                  Agregar Usuario
-                </button>
+                  {console.log('%cBooleano para no mostrar boton Agregar Usuario:', 'color: green; font-weight: bold;', visibleForm)}
+                  <div className='align-items-end my-1'>
+                    <FormPagination />
+                  </div>
+                </>
 
               )}
 
-              {console.log('%cBooleano para no mostrar boton Agregar Usuario:', 'color: green; font-weight: bold;', visibleForm)}
-              <div className='align-items-end my-1'>
-                <FormPagination />
-              </div>
+
 
             </div>
 
